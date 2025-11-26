@@ -1,12 +1,20 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { createTheme, ThemeProvider } from '@mui/material'
 import './App.css'
+import { BrowserRouter } from 'react-router';
+import AppRouter from './routers/AppRouter';
 
 function App() {
+    const theme = createTheme();
 
-  return (
-    <div></div>
-  )
+    return (
+        <ThemeProvider theme={theme}>
+            <BrowserRouter>
+                {/* <ErrorBoundary> */}
+                    <AppRouter />
+                {/* </ErrorBoundary> */}
+            </BrowserRouter>
+        </ThemeProvider>
+    )
 }
 
 export default App
