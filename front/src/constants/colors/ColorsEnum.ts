@@ -1,6 +1,9 @@
 export enum ColorsEnum {
     MAIN_BG = "#F3F5EE",
-    SECONDARY_BG = "#2A6E71",
+    SECONDARY_BG_DARK = "#2A6E71",
+    SECONDARY_BG_LIGHT = "#89b2ce93",
     MAIN_TEXT = "#1E241A",
     SECONDARY_TEXT = "#D0E3E8",
+    FOOTER_MAIN_TEXT = "#3b5869",
+    FOOTER_SECONDARY_TEXT = "#717171"
 }

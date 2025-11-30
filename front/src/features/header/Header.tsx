@@ -1,15 +1,16 @@
 import { Box, IconButton, TextField } from '@mui/material'
-import { ColorsEnum } from '@/constants/colors/colorsEnum';
+import { ColorsEnum } from '@/constants/colors/ColorsEnum';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { StyleList } from '@/constants/styles/StyleList';
 type Props = {}
 
 export default function Header({}: Props) {
   return (
-    <Box className="header" sx={{ bgcolor: ColorsEnum.SECONDARY_BG, width: "100%", minHeight: "100px", height: "100%", display: "flex", justifyContent: "center"}}>
-        <Box className="container" sx={{ maxWidth: "1200px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+    <Box className="header" sx={StyleList.default}>
+        <Box className="container" sx={StyleList.container}>
             <Box className="logo">
                 <IconButton aria-label="home">
                     <ImportContactsIcon sx={{color: ColorsEnum.SECONDARY_TEXT, fontSize: "48px"}} />

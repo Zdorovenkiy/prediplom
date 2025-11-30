@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import type { FC } from 'react';
 import type{ RouteObject } from 'react-router-dom';
 import { routeConfig } from './config/routeConfig';
+import MainLayout from '@/layouts/mainLayout/MainLayout';
 
 
 const AppRouter: FC = () => {
@@ -15,7 +16,9 @@ const AppRouter: FC = () => {
           </div>
         }
       >
+        <MainLayout>
             {route.element}
+        </MainLayout>
       </Suspense>
     );
 
