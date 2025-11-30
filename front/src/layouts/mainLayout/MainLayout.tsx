@@ -8,7 +8,7 @@ export default function MainLayout({children}: PropsWithChildren) {
 	return (
 		<>
 			<Header />
-			<Box className="main" sx={{height: "100%"}}>{children}</Box>
+			<Box className="main" sx={{height: "100%", flexGrow: '1'}}>{children}</Box>
             <Footer/>
 		</>
 	);

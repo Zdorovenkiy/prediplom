@@ -10,8 +10,8 @@ type Props = {}
 
 export default function Main({}: Props) {
     return (
-        <Box className="mainPage" sx={{...StyleList.default, bgcolor: 'unset', height: '100%', maxHeight: 'unset', position: 'relative', paddingBlock: "8px"}}>
-            <Box className="container" sx={{...StyleList.container, flexDirection: "column", gap: '20px'}}>
+        <Box className="mainPage" sx={StyleList.pages}>
+            <Box className="container" sx={StyleList.pagesContainer}>
                 <Swiper />
 
                 <Box className="sale" sx={{textAlign: "start", width: "100%", display: 'flex', flexDirection: "column", gap: "20px"}}>
