@@ -2,6 +2,7 @@
 import About from '@/pages/about/About';
 import Auth from '@/pages/auth/Auth';
 import Basket from '@/pages/basket/Basket';
+import Comments from '@/pages/comments/Comments';
 import Contacts from '@/pages/contacts/Contacts';
 import Item from '@/pages/item/Item';
 import ItemsList from '@/pages/itemsList/ItemsList';
@@ -22,9 +23,11 @@ export enum AppRoutes {
     BASKET = "basket",
     ITEMS_LIST = "itemsList",
     ITEM_PAGE = "itemsPage",
+    COMMENTS = "comments",
 }
 
 export const RoutePathNames: Record<AppRoutes, string> = {
+    [AppRoutes.COMMENTS]: 'Комментарии',
     [AppRoutes.ITEM_PAGE]: 'Товар',
     [AppRoutes.ITEMS_LIST]: 'Каталог',
     [AppRoutes.BASKET]: 'Корзина',
@@ -38,6 +41,7 @@ export const RoutePathNames: Record<AppRoutes, string> = {
 };
 
 export const RoutePath: Record<AppRoutes, string> = {
+    [AppRoutes.COMMENTS]: '/comments',
     [AppRoutes.ITEM_PAGE]: '/itemsPage',
     [AppRoutes.ITEMS_LIST]: '/itemsList',
     [AppRoutes.BASKET]: '/basket',
@@ -51,6 +55,10 @@ export const RoutePath: Record<AppRoutes, string> = {
 };
 
 export const routeConfig: Record<AppRoutes, RouteObject> = {
+    [AppRoutes.COMMENTS]: {
+        path: RoutePath.comments,
+        element: <Comments />,
+    },
     [AppRoutes.ITEM_PAGE]: {
         path: RoutePath.itemsPage,
         element: <Item />,

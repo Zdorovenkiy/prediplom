@@ -1,7 +1,7 @@
 import { StyleList } from '@/constants/styles/StyleList'
 import CustomBreadcrumbs from '@/features/customBreadcrumbs/CustomBreadcrumbs'
 import ItemCard from '@/features/itemCard/ItemCard'
-import { AppRoutes } from '@/routers/config/routeConfig'
+import { AppRoutes, RoutePath } from '@/routers/config/routeConfig'
 import {
   Box,
   Typography,
@@ -48,7 +48,8 @@ import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import Swiper from '../main/components/swiper/Swiper'
 import { ColorsEnum } from '@/constants/colors/ColorsEnum'
-import Comments from './components/Comments'
+import CommentsCard from '@/features/commentsCard/CommentsCard'
+import { useNavigation } from '@/hooks/UseNavigation'
 
 type Product = {
   id: number
@@ -118,6 +119,8 @@ export default function Item({}: Props) {
   const [isFavorite, setIsFavorite] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false)
   const [snackbarMessage, setSnackbarMessage] = useState('')
+
+  const navigate = useNavigation();
 
   // Пример данных товара
   const product: Product = {
@@ -205,44 +208,11 @@ export default function Item({}: Props) {
     setShowSnackbar(true)
   }
 
-  const handleToggleFavorite = () => {
-    setIsFavorite(!isFavorite)
-    setSnackbarMessage(isFavorite ? 'Товар удалён из избранного' : 'Товар добавлен в избранное')
-    setShowSnackbar(true)
-  }
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: product.name,
-        text: product.shortDescription,
-        url: window.location.href,
-      })
-    } else {
-      navigator.clipboard.writeText(window.location.href)
-      setSnackbarMessage('Ссылка скопирована в буфер обмена')
-      setShowSnackbar(true)
-    }
-  }
-
   const handleQuantityChange = (delta: number) => {
     const newQuantity = quantity + delta
     if (newQuantity >= 1 && newQuantity <= product.stockCount) {
       setQuantity(newQuantity)
     }
-  }
-
-  const handleBuyNow = () => {
-    handleAddToCart()
-    // Перенаправление в корзину
-  }
-
-  const ratingDistribution = {
-    5: 85,
-    4: 32,
-    3: 8,
-    2: 2,
-    1: 0
   }
 
   return (
@@ -347,7 +317,24 @@ export default function Item({}: Props) {
                         </TabPanel>
 
                         <TabPanel value={activeTab} index={1}>
-                            
+                            <Box className='comments' sx={{
+                                width: '100%', 
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                mb: 2,
+                            }}>
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    onClick={() => navigate(RoutePath.comments)}
+                                    sx={{ 
+                                        bgcolor: ColorsEnum.SECONDARY_BG_LIGHT, 
+                                        color: ColorsEnum.SECONDARY_BG_DARK,
+                                    }}
+                                >
+                                    Смотреть все
+                                </Button>
+                            </Box>
                             <Box className='comments' sx={{
                                 width: '100%', 
                                 display: 'flex',
@@ -357,7 +344,7 @@ export default function Item({}: Props) {
                                 textAlign: 'start'
                             }}>
                                 {reviews.map((review) => (
-                                    <Comments review={review} />
+                                    <CommentsCard review={review} />
                                 ))}
                             </Box>
                    

@@ -6,7 +6,7 @@ type Props = {
     review: any
 }
 
-export default function Comments({review}: Props) {
+export default function CommentsCard({review}: Props) {
     return (
         <Box key={review.id} sx={{ p: 2, border: `1px ${ColorsEnum.SECONDARY_BG_DARK} solid`, borderRadius: '12px' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
