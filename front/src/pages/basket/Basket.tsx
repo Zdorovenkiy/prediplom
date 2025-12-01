@@ -62,7 +62,7 @@ export default function Basket({}: Props) {
     }
 
     return (
-        <Box className="mainPage" sx={StyleList.pages}>
+        <Box className="basketPage" sx={StyleList.pages}>
         <Box className="container" sx={StyleList.pagesContainer}>
             <CustomBreadcrumbs path={[AppRoutes.BASKET]} />
             <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
