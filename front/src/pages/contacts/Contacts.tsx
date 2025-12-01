@@ -23,6 +23,8 @@ import {
 } from '@mui/icons-material';
 import { ColorsEnum } from '@/constants/colors/ColorsEnum';
 import Feedback from './components/feedback/Feedback';
+import { AppRoutes } from '@/routers/config/routeConfig';
+import CustomBreadcrumbs from '@/features/customBreadcrumbs/CustomBreadcrumbs';
 
 type Props = {};
 
@@ -30,6 +32,7 @@ export default function Contacts({}: Props) {
     return (
         <Box className="contactsPage" sx={StyleList.pages}>
             <Box className={"container"} sx={StyleList.pagesContainer}>
+                <CustomBreadcrumbs path={[AppRoutes.CONTACTS]} />
                 <Box sx={{ textAlign: 'center', mb: 6 }}>
                 <Typography variant="h2" component="h1" gutterBottom sx={{ 
                     fontWeight: 700,

@@ -1,8 +1,9 @@
 import { ColorsEnum } from "@/constants/colors/ColorsEnum"
 import { StyleList } from "@/constants/styles/StyleList"
+import CustomBreadcrumbs from "@/features/customBreadcrumbs/CustomBreadcrumbs"
 import CustomInput from "@/features/customInput/CustomInput"
 import { useNavigation } from "@/hooks/UseNavigation"
-import { RoutePath } from "@/routers/config/routeConfig"
+import { AppRoutes, RoutePath } from "@/routers/config/routeConfig"
 import { Box, Button, TextField, Typography } from "@mui/material"
 
 type Props = {}
@@ -13,7 +14,7 @@ export default function Auth({}: Props) {
     return (
         <Box className="AuthPage" sx={StyleList.pages}>
             <Box className="container" sx={StyleList.pagesContainer}>
-                
+                <CustomBreadcrumbs path={[AppRoutes.AUTH]} />
                 <Box 
                     className="auth"       
                     component="form"

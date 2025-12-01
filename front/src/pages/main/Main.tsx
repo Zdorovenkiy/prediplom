@@ -5,6 +5,8 @@ import 'keen-slider/keen-slider.min.css'
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import Swiper from './components/swiper/Swiper';
 import ItemCard from '@/features/itemCard/ItemCard';
+import CustomBreadcrumbs from '@/features/customBreadcrumbs/CustomBreadcrumbs';
+import { AppRoutes, RoutePath } from '@/routers/config/routeConfig';
 
 type Props = {}
 
@@ -12,6 +14,7 @@ export default function Main({}: Props) {
     return (
         <Box className="mainPage" sx={StyleList.pages}>
             <Box className="container" sx={StyleList.pagesContainer}>
+                <CustomBreadcrumbs />
                 <Swiper />
 
                 <Box className="sale" sx={{textAlign: "start", width: "100%", display: 'flex', flexDirection: "column", gap: "20px"}}>

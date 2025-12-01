@@ -11,6 +11,8 @@ import {
   Star
 } from '@mui/icons-material';
 import { ColorsEnum } from '@/constants/colors/ColorsEnum';
+import CustomBreadcrumbs from '@/features/customBreadcrumbs/CustomBreadcrumbs';
+import { AppRoutes } from '@/routers/config/routeConfig';
 
 type Props = {};
 
@@ -18,6 +20,7 @@ export default function About({}: Props) {
   return (
     <Box className="aboutPage" sx={StyleList.pages}>
       <Container maxWidth="lg" sx={StyleList.pagesContainer}>
+        <CustomBreadcrumbs path={[AppRoutes.ABOUT]} />
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography variant="h2" component="h1" gutterBottom sx={{ 
             fontWeight: 700,

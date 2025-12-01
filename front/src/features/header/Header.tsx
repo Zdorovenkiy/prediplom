@@ -33,7 +33,7 @@ export default function Header({}: Props) {
                     <IconButton aria-label="menu">
                         <MenuIcon sx={{color: ColorsEnum.SECONDARY_TEXT, fontSize: "48px"}} />
                     </IconButton>
-                    <IconButton aria-label="basket">
+                    <IconButton aria-label="basket" onClick={() => navigate(RoutePath.basket)}>
                         <AddShoppingCartIcon sx={{color: ColorsEnum.SECONDARY_TEXT, fontSize: "48px"}} />
                     </IconButton>
                     <IconButton aria-label="auth" onClick={() => navigate(RoutePath.auth)}>
