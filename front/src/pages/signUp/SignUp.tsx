@@ -1,18 +1,21 @@
 import { ColorsEnum } from "@/constants/colors/ColorsEnum"
 import { StyleList } from "@/constants/styles/StyleList"
 import CustomInput from "@/features/customInput/CustomInput"
+import { useNavigation } from "@/hooks/UseNavigation"
 import { RoutePath } from "@/routers/config/routeConfig"
 import { Box, Button, Typography } from "@mui/material"
 
 type Props = {}
 
 export default function SignUp({}: Props) {
+    const navigate = useNavigation();
+
     return (
-        <Box className="AuthPage" sx={StyleList.pages}>
+        <Box className="signUpPage" sx={StyleList.pages}>
             <Box className="container" sx={StyleList.pagesContainer}>
                 
                 <Box 
-                    className="auth"       
+                    className="signUp"       
                     component="form"
                     noValidate
                     autoComplete="off"
@@ -75,6 +78,19 @@ export default function SignUp({}: Props) {
                         >
                             Отправить
                         </Button>
+                        <Typography 
+                            onClick={() => navigate(RoutePath.auth)}
+                            variant='body2' 
+                            sx={{
+                                cursor: 'pointer',
+                                '&.MuiTypography-root:hover': {
+                                    opacity: '0.5'
+                                }
+                            
+                            }}
+                        >
+                            Вернуться к авторизации
+                        </Typography> 
                 </Box>
             </Box>
         </Box>

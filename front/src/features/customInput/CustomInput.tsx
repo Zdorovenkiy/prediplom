@@ -8,10 +8,11 @@ type Props = {
     full?: boolean,
     borderless?: boolean,
     type?: React.HTMLInputTypeAttribute,
-    required?: boolean
+    required?: boolean,
+    multiline?: boolean
 }
 
-export default function CustomInput({id, label, full, borderless, type, required}: Props) {
+export default function CustomInput({id, label, full, borderless, type, required, multiline}: Props) {
     return (
         <TextField 
             id={id || 'field'} 
@@ -20,6 +21,7 @@ export default function CustomInput({id, label, full, borderless, type, required
             variant="outlined" 
             fullWidth={full}
             type={type}
+            multiline={multiline}
             slotProps={{
                 htmlInput: {sx: {height: '25px'}},
                 inputLabel: {sx: {

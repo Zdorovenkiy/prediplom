@@ -1,18 +1,14 @@
 import { ColorsEnum } from "@/constants/colors/ColorsEnum"
 import { StyleList } from "@/constants/styles/StyleList"
 import CustomInput from "@/features/customInput/CustomInput"
+import { useNavigation } from "@/hooks/UseNavigation"
 import { RoutePath } from "@/routers/config/routeConfig"
 import { Box, Button, TextField, Typography } from "@mui/material"
-import { useNavigate } from "react-router"
 
 type Props = {}
 
 export default function Auth({}: Props) {
-    const navigate = useNavigate();
-
-    function navigateHandler(path: string) {
-        navigate(path);
-    }
+    const navigate = useNavigation();
 
     return (
         <Box className="AuthPage" sx={StyleList.pages}>
@@ -51,7 +47,7 @@ export default function Auth({}: Props) {
                             Отправить
                         </Button>
                         <Typography 
-                            onClick={() => navigateHandler(RoutePath.signUp)}
+                            onClick={() => navigate(RoutePath.signUp)}
                             variant='body2' 
                             sx={{
                                 cursor: 'pointer',
@@ -64,6 +60,7 @@ export default function Auth({}: Props) {
                             Зарегистрироваться
                         </Typography> 
                         <Typography 
+                            onClick={() => navigate(RoutePath.recoverPassword)}
                             variant='body2' 
                             sx={{
                                 cursor: 'pointer',
