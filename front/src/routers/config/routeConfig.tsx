@@ -3,6 +3,7 @@ import About from '@/pages/about/About';
 import Auth from '@/pages/auth/Auth';
 import Basket from '@/pages/basket/Basket';
 import Contacts from '@/pages/contacts/Contacts';
+import Item from '@/pages/item/Item';
 import ItemsList from '@/pages/itemsList/ItemsList';
 import Main from '@/pages/main/Main';
 import NotFound from '@/pages/notFound/NotFound';
@@ -20,9 +21,11 @@ export enum AppRoutes {
     CONTACTS = "contacts",
     BASKET = "basket",
     ITEMS_LIST = "itemsList",
+    ITEM_PAGE = "itemsPage",
 }
 
 export const RoutePathNames: Record<AppRoutes, string> = {
+    [AppRoutes.ITEM_PAGE]: 'Товар',
     [AppRoutes.ITEMS_LIST]: 'Каталог',
     [AppRoutes.BASKET]: 'Корзина',
     [AppRoutes.CONTACTS]: 'Контакты',
@@ -35,6 +38,7 @@ export const RoutePathNames: Record<AppRoutes, string> = {
 };
 
 export const RoutePath: Record<AppRoutes, string> = {
+    [AppRoutes.ITEM_PAGE]: '/itemsPage',
     [AppRoutes.ITEMS_LIST]: '/itemsList',
     [AppRoutes.BASKET]: '/basket',
     [AppRoutes.CONTACTS]: '/contacts',
@@ -47,6 +51,10 @@ export const RoutePath: Record<AppRoutes, string> = {
 };
 
 export const routeConfig: Record<AppRoutes, RouteObject> = {
+    [AppRoutes.ITEM_PAGE]: {
+        path: RoutePath.itemsPage,
+        element: <Item />,
+    },
     [AppRoutes.ITEMS_LIST]: {
         path: RoutePath.itemsList,
         element: <ItemsList />,

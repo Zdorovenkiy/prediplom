@@ -36,7 +36,7 @@ export default function ItemCard({}: Props) {
                         size="small" 
                         variant='contained' 
                         sx={{bgcolor: ColorsEnum.SECONDARY_BG_DARK, color: ColorsEnum.SECONDARY_TEXT}}
-                        onClick={() => navigate(RoutePath.itemsList)}
+                        onClick={() => navigate(RoutePath.itemsPage)}
                         >Посмотреть</Button>
                     <IconButton aria-label="basketIn">
                         <AddShoppingCartIcon sx={{color: ColorsEnum.MAIN_TEXT, fontSize: "48px"}} />
