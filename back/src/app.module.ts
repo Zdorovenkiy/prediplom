@@ -13,6 +13,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { FeedbackModule } from './modules/feedback/feedback.module';
+import { NewsImagesModule } from './modules/news_images/news_images.module';
 import * as Tables from './models/index';
 
 
@@ -44,6 +45,7 @@ import * as Tables from './models/index';
       logging: false
     }),
     FeedbackModule,
+    NewsImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

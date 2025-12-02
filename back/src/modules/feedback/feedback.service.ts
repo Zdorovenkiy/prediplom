@@ -11,23 +11,11 @@ export class FeedbackService {
               private currentModel: typeof feedbacks,
         ) {}
         
-  create(createFeedbackDto: CreateFeedbackDto) {
-    return 'This action adds a new feedback';
+  async create(createFeedbackDto: CreateFeedbackDto) {
+    return await this.currentModel.create(createFeedbackDto);
   }
 
-  findAll() {
-    return `This action returns all feedback`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} feedback`;
-  }
-
-  update(id: number, updateFeedbackDto: UpdateFeedbackDto) {
-    return `This action updates a #${id} feedback`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} feedback`;
+  async findAll() {
+    return await this.currentModel.findAll();
   }
 }

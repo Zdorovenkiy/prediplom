@@ -8,3 +8,4 @@ export * from "./reviews";
 export * from "./roles";
 export * from "./users";
 export * from "./feedback";
+export * from "./news_images";

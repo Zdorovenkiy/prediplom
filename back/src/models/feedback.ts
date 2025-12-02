@@ -1,5 +1,5 @@
 import {
-	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
+	Model, Table, Column, DataType
 } from "sequelize-typescript";
 
 export interface feedbackAttributes {
