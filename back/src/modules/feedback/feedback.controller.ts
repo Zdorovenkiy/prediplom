@@ -8,12 +8,12 @@ export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
   @Post()
-  create(@Body() createFeedbackDto: CreateFeedbackDto) {
-    return this.feedbackService.create(createFeedbackDto);
+  async create(@Body() createFeedbackDto: CreateFeedbackDto) {
+    return await this.feedbackService.create(createFeedbackDto);
   }
 
   @Get()
-  findAll() {
-    return this.feedbackService.findAll();
+  async findAll() {
+    return await this.feedbackService.findAll();
   }
 }

@@ -11,23 +11,11 @@ export class NewsImagesService {
               private currentModel: typeof news_images,
         ) {}
 
-  create(createNewsImageDto: CreateNewsImageDto) {
-    return 'This action adds a new newsImage';
+  async create(createNewsImageDto: CreateNewsImageDto) {
+    return await this.currentModel.create(createNewsImageDto);
   }
 
-  findAll() {
-    return `This action returns all newsImages`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} newsImage`;
-  }
-
-  update(id: number, updateNewsImageDto: UpdateNewsImageDto) {
-    return `This action updates a #${id} newsImage`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} newsImage`;
+  async findAll() {
+    return await this.currentModel.findAll();
   }
 }

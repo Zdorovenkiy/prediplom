@@ -8,12 +8,12 @@ export class NewsImagesController {
   constructor(private readonly newsImagesService: NewsImagesService) {}
 
   @Post()
-  create(@Body() createNewsImageDto: CreateNewsImageDto) {
-    return this.newsImagesService.create(createNewsImageDto);
+  async create(@Body() createNewsImageDto: CreateNewsImageDto) {
+    return await this.newsImagesService.create(createNewsImageDto);
   }
 
   @Get()
-  findAll() {
-    return this.newsImagesService.findAll();
+  async findAll() {
+    return await this.newsImagesService.findAll();
   }
 }
