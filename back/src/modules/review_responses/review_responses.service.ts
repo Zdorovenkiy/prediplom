@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReviewResponseDto } from './dto/create-review_response.dto';
 import { UpdateReviewResponseDto } from './dto/update-review_response.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { review_responses } from 'src/models';
 
 @Injectable()
 export class ReviewResponsesService {
+      constructor(
+        @InjectModel(review_responses)
+          private currentModel: typeof review_responses,
+        ) {}
   create(createReviewResponseDto: CreateReviewResponseDto) {
     return 'This action adds a new reviewResponse';
   }

@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderProductDto } from './dto/create-order_product.dto';
 import { UpdateOrderProductDto } from './dto/update-order_product.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { order_products } from 'src/models';
 
 @Injectable()
 export class OrderProductsService {
+      constructor(
+        @InjectModel(order_products)
+          private currentModel: typeof order_products,
+        ) {}
   create(createOrderProductDto: CreateOrderProductDto) {
     return 'This action adds a new orderProduct';
   }

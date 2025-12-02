@@ -8,7 +8,7 @@ import { InjectModel } from '@nestjs/sequelize';
 export class RolesService {
   constructor(
     @InjectModel(roles)
-      private RolesModel: typeof roles,
+      private currentModel: typeof roles,
     ) {}
 
   create(createRoleDto: CreateRoleDto) {
@@ -16,7 +16,7 @@ export class RolesService {
   }
 
   findAll() {
-    return this.RolesModel.findAll();
+    return this.currentModel.findAll();
   }
 
   findOne(id: number) {

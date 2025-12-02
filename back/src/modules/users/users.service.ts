@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { users } from 'src/models';
 
 @Injectable()
 export class UsersService {
+      constructor(
+        @InjectModel(users)
+          private currentModel: typeof users,
+        ) {}
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }
