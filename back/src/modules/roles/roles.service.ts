@@ -1,15 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { roles } from 'src/models';
+import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
 export class RolesService {
+  constructor(
+    @InjectModel(roles)
+      private RolesModel: typeof roles,
+    ) {}
+
   create(createRoleDto: CreateRoleDto) {
     return 'This action adds a new role';
   }
 
   findAll() {
-    return `This action returns all roles`;
+    return this.RolesModel.findAll();
   }
 
   findOne(id: number) {
