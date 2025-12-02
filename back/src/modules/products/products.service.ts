@@ -6,27 +6,50 @@ import { products } from 'src/models';
 
 @Injectable()
 export class ProductsService {
-      constructor(
+    constructor(
         @InjectModel(products)
-          private currentModel: typeof products,
-        ) {}
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
-  }
+        private currentModel: typeof products,
+    ) {}
 
-  findAll() {
-    return `This action returns all products`;
-  }
+    async create(createProductDto: CreateProductDto) {
+        return await this.currentModel.create(createProductDto);
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
+    async findAll() {
+        return await this.currentModel.findAll();
+    }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
+    async findOne(id: number) {
+        return await this.currentModel.findOne({
+            where: {
+                id: id
+            }
+        });
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
-  }
+    async update(id: number, updateProductDto: UpdateProductDto) {
+        return await this.currentModel.update(updateProductDto, {
+            where: {
+                id: id
+            }
+        });
+    }
+
+    async remove(id: number) {
+        return await this.currentModel.destroy({
+            where: {
+                id: id
+            }
+        });
+    }
+
+    async findDiscount() {
+        return await this.currentModel.findAll({
+            limit: 3,
+            where: {
+                is_discount: true
+            },
+            order: [['id', 'DESC']],
+        });
+    }
 }

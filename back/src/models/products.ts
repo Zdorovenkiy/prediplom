@@ -6,9 +6,10 @@ export interface productsAttributes {
     id?: number;
     title: string;
     description: string;
-    price: string;
+    price: number;
     stock: number;
     description_short?: string;
+    is_discount: boolean;
 }
 
 @Table({
@@ -37,7 +38,7 @@ export class products extends Model<productsAttributes, productsAttributes> impl
     @Column({
     	type: DataType.DECIMAL(10,2) 
     })
-    	price!: string;
+    	price!: number;
 
     @Column({
     	type: DataType.INTEGER 
@@ -49,5 +50,11 @@ export class products extends Model<productsAttributes, productsAttributes> impl
     	type: DataType.STRING(255) 
     })
     	description_short?: string;
+
+    @Column({
+    	defaultValue: "0",
+    	type: DataType.BOOLEAN
+    })
+    	is_discount: boolean;
 
 }
