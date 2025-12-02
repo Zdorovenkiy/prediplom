@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -30,5 +30,46 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+
+  @Post('register')
+  async register(@Body() createUserDto: CreateUserDto) {
+    await this.usersService.register(createUserDto);
+    return "Success";
+  }
+
+  @Post('auth')
+  async auth(    
+    @Body('email') email: string,
+    @Body('password') password: string
+    ) {
+
+        const user = await this.usersService.auth(email, password);
+        
+        if (!user) throw new HttpException('Пользователя не существует', HttpStatus.BAD_REQUEST); 
+
+        return user
+  }
+
+    @Post('recover')
+    async recoverPassword(@Body('email') email: string) {
+        try {
+            if (!email) {
+                throw new HttpException('Email обязателен', HttpStatus.BAD_REQUEST);
+            }
+
+            const result = await this.usersService.sendPasswordEmail(email);
+            
+            if (!result.success) {
+                throw new HttpException(result.message, HttpStatus.NOT_FOUND);
+            }
+            
+            return result.message;
+        } catch (error) {
+            throw new HttpException(
+                'Ошибка при отправке email',
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
   }
 }

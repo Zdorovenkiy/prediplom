@@ -2,22 +2,20 @@ import {
 	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
 } from "sequelize-typescript";
 
-export interface usersAttributes {
+export interface feedbackAttributes {
     id?: number;
     surname: string;
     name: string;
-    patronymic?: string;
     email: string;
-    password: string;
-    role_id: number;
-    phone: string;
+    title: string;
+    message: string;
 }
 
 @Table({
-	tableName: "users",
+	tableName: "feedback",
 	timestamps: false 
 })
-export class users extends Model<usersAttributes, usersAttributes> implements usersAttributes {
+export class feedbacks extends Model<feedbackAttributes, feedbackAttributes> implements feedbackAttributes {
 
     @Column({
     	primaryKey: true,
@@ -37,31 +35,17 @@ export class users extends Model<usersAttributes, usersAttributes> implements us
     	name!: string;
 
     @Column({
-    	allowNull: true,
-    	type: DataType.STRING(255) 
-    })
-    	patronymic?: string;
-
-    @Column({
     	type: DataType.STRING(255),
-        unique: true
     })
     	email!: string;
 
     @Column({
-    	type: DataType.STRING(255) 
+    	type: DataType.STRING(255),
     })
-    	password!: string;
+    	title!: string;
 
     @Column({
-    	type: DataType.INTEGER 
+    	type: DataType.STRING(255),
     })
-    	role_id!: number;
-
-    @Column({
-    	type: DataType.STRING(45),
-        unique: true
-    })
-    	phone!: string;
-
+    	message!: string;
 }

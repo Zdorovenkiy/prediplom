@@ -12,6 +12,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { FeedbackModule } from './modules/feedback/feedback.module';
 import * as Tables from './models/index';
 
 
@@ -42,6 +43,7 @@ import * as Tables from './models/index';
       synchronize: true,
       logging: false
     }),
+    FeedbackModule,
   ],
   controllers: [AppController],
   providers: [AppService],

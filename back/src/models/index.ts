@@ -7,3 +7,4 @@ export * from "./review_responses";
 export * from "./reviews";
 export * from "./roles";
 export * from "./users";
+export * from "./feedback";

@@ -36,11 +36,11 @@ export default function Feedback({}: Props) {
                     required
                     />
                 <CustomInput 
-                    id='phone' 
-                    label='Телефон'
+                    id='email' 
+                    label='Email'
                     full={true}
                     borderless={true}
-                    type="number"
+                    type="email"
                     required
                     />
                 <CustomInput 
