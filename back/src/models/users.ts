@@ -1,6 +1,8 @@
 import {
-	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
+	Model, Table, Column, DataType, Index, Sequelize, ForeignKey, 
+    HasMany
 } from "sequelize-typescript";
+import { orders } from "./orders";
 
 export interface usersAttributes {
     id?: number;
@@ -64,4 +66,6 @@ export class users extends Model<usersAttributes, usersAttributes> implements us
     })
     	phone!: string;
 
+    @HasMany(() => orders)
+    orders!: orders[];
 }

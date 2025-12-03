@@ -10,23 +10,12 @@ export class ReviewsService {
         @InjectModel(reviews)
           private currentModel: typeof reviews,
         ) {}
-  create(createReviewDto: CreateReviewDto) {
-    return 'This action adds a new review';
-  }
 
-  findAll() {
-    return `This action returns all reviews`;
-  }
+    async create(createReviewDto: CreateReviewDto) {
+        return await this.currentModel.create(createReviewDto);
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} review`;
-  }
-
-  update(id: number, updateReviewDto: UpdateReviewDto) {
-    return `This action updates a #${id} review`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} review`;
-  }
+    async findAll() {
+        return await this.currentModel.findAll();
+    }
 }

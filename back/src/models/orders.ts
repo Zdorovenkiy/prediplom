@@ -1,6 +1,10 @@
 import {
-	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
+	Model, Table, Column, DataType, Index, Sequelize, ForeignKey, 
+    BelongsTo,
+    HasMany
 } from "sequelize-typescript";
+import { users } from "./users";
+import { order_products } from "./order_products";
 
 export interface ordersAttributes {
     id?: number;
@@ -22,6 +26,7 @@ export class orders extends Model<ordersAttributes, ordersAttributes> implements
     })
     	declare id?: number;
 
+    @ForeignKey(() => users)
     @Column({
     	type: DataType.INTEGER 
     })
@@ -38,4 +43,9 @@ export class orders extends Model<ordersAttributes, ordersAttributes> implements
     })
     	is_payed?: number;
 
+    @BelongsTo(() => users)
+    user!: users;
+
+    @HasMany(() => order_products)
+    order_products!: order_products[];
 }

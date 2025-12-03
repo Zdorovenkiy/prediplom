@@ -1,6 +1,9 @@
 import {
-	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
+	Model, Table, Column, DataType, Index, Sequelize, ForeignKey, 
+    BelongsTo
 } from "sequelize-typescript";
+import { orders } from "./orders";
+import { products } from "./products";
 
 export interface order_productsAttributes {
     id?: number;
@@ -23,11 +26,13 @@ export class order_products extends Model<order_productsAttributes, order_produc
     })
     	declare id?: number;
 
+    @ForeignKey(() => orders)
     @Column({
     	type: DataType.INTEGER 
     })
     	order_id!: number;
 
+    @ForeignKey(() => products)
     @Column({
     	type: DataType.INTEGER 
     })
@@ -42,5 +47,11 @@ export class order_products extends Model<order_productsAttributes, order_produc
     	type: DataType.DECIMAL(10,2) 
     })
     	price!: string;
+
+    @BelongsTo(() => orders)
+    order!: orders;
+
+    @BelongsTo(() => products)
+    product!: products;
 
 }
