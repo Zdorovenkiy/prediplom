@@ -22,6 +22,14 @@ export const apiProduct = createApi({
       }),
     }),
 
+    
+    getProduct: builder.query<IProduct[], void>({
+      query: () => ({
+        url: `products`,
+        method: 'GET',
+      }),
+    }),
+
   }),
 });
 
