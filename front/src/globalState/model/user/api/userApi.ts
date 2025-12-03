@@ -23,7 +23,7 @@ export const apiUser = createApi({
       }),
     }),
 
-    register: builder.mutation<IUser, {user: IUser}>({
+    register: builder.mutation<IUser, IUser>({
       query: (body) => ({
         url: `users/register`,
         method: 'POST',

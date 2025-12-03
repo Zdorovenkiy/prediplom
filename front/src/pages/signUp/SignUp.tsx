@@ -7,7 +7,7 @@ import type { IUser } from "@/globalState/model/user/types/userType"
 import { useNavigation } from "@/hooks/UseNavigation"
 import { AppRoutes, RoutePath } from "@/routers/config/routeConfig"
 import { Box, Button, Typography } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 type Props = {}
 
@@ -18,12 +18,12 @@ export default function SignUp({}: Props) {
         surname: '',
         name: '',
         patronymic: '',
-        date: '',
+        phone: '',
         email: '',
         password: ''
     });
 
-    const [register, { isSuccess, isError, isLoading }] = useRegisterMutation<{
+    const [register, { isSuccess, isError, isLoading, message }] = useRegisterMutation<{
         message: string;
         isSuccess: boolean;
         isError: boolean;
@@ -50,32 +50,44 @@ export default function SignUp({}: Props) {
             password: formData.password
         };
         
-        // Отправка запроса
-        const response = await register(registerData).unwrap();
         
-        // Успешная регистрация
-        setFormSuccess('Регистрация успешна! Вы будете перенаправлены на страницу авторизации...');
-        
-        // Очистка формы
+
+        await register(registerData);
+
         setFormData({
             surname: '',
             name: '',
             patronymic: '',
-            date: '',
+            phone: '',
             email: '',
             password: ''
         });
         
         } catch (error: any) {
-        // Обработка ошибок от сервера
-        const errorMessage = error?.data?.message || 'Произошла ошибка при регистрации';
-        setFormError(errorMessage);
+            const errorMessage = error?.data?.message || 'Произошла ошибка при регистрации';
+            console.log(errorMessage);
         }
     };
     
+    useEffect(() => {
+        if (isSuccess) {
+        const timer = setTimeout(() => {
+            navigate(RoutePath.main);
+        }, 3000);
+        
+        return () => clearTimeout(timer);
+        }
+    }, [isSuccess, navigate]);
+
+    useEffect(() => {
+        if (isError) {
+            console.log("message", message);
+        }
+    }, [isError]);
+
     return (
         <Box className="signUpPage" sx={StyleList.pages}>
-            <Box className="container" sx={StyleList.pagesContainer}>
+            <Box className="container" sx={StyleList.pagesContainer} onSubmit={handleSubmit}>
                 <CustomBreadcrumbs path={[AppRoutes.SIGN_UP]} />
                 <Box 
                     className="signUp"       
@@ -94,6 +106,8 @@ export default function SignUp({}: Props) {
                             borderless={true}
                             type="text"
                             required
+                            value={formData.surname}
+                            onChange={(e) => handleInputChange('surname', e.target.value)}
                             />
                         <CustomInput 
                             id='name' 
@@ -102,6 +116,8 @@ export default function SignUp({}: Props) {
                             borderless={true}
                             type="text"
                             required
+                            value={formData.name}
+                            onChange={(e) => handleInputChange('name', e.target.value)}
                             />
                         <CustomInput 
                             id='patronymic' 
@@ -109,6 +125,8 @@ export default function SignUp({}: Props) {
                             full={true}
                             borderless={true}
                             type="text"
+                            value={formData.patronymic}
+                            onChange={(e) => handleInputChange('patronymic', e.target.value)}
                             />
                         <CustomInput 
                             id='phone' 
@@ -117,6 +135,8 @@ export default function SignUp({}: Props) {
                             borderless={true}
                             type="text"
                             required
+                            value={formData.phone}
+                            onChange={(e) => handleInputChange('phone', e.target.value)}
                             />
                         <CustomInput 
                             id='email' 
@@ -125,6 +145,8 @@ export default function SignUp({}: Props) {
                             borderless={true}
                             type="email"
                             required
+                            value={formData.email}
+                            onChange={(e) => handleInputChange('email', e.target.value)}
                             />
                         <CustomInput 
                             id='password' 
@@ -133,11 +155,15 @@ export default function SignUp({}: Props) {
                             borderless={true}
                             type="password"
                             required
+                            value={formData.password}
+                            onChange={(e) => handleInputChange('password', e.target.value)}
                             />
                         
                         <Button 
                             variant="contained"
                             sx={{bgcolor: ColorsEnum.SECONDARY_BG_LIGHT}}
+                            type="submit"
+                            disabled={isLoading}
                         >
                             Отправить
                         </Button>

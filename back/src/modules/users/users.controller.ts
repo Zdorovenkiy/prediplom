@@ -34,8 +34,10 @@ export class UsersController {
 
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
-    await this.usersService.register(createUserDto);
-    return "Success";
+    const res = await this.usersService.register(createUserDto);
+    console.log("res", res);
+    
+    return res;
   }
 
   @Post('auth')

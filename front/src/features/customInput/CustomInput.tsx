@@ -9,12 +9,16 @@ type Props = {
     borderless?: boolean,
     type?: React.HTMLInputTypeAttribute,
     required?: boolean,
-    multiline?: boolean
+    multiline?: boolean,
+    value?: any,
+    onChange?: (e: any) => void
 }
 
-export default function CustomInput({id, label, full, borderless, type, required, multiline}: Props) {
+export default function CustomInput({id, label, full, borderless, type, required, multiline, value, onChange}: Props) {
     return (
         <TextField 
+            onChange={onChange}
+            value={value}
             id={id || 'field'} 
             required={required}
             label={label}
