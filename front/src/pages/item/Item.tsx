@@ -50,32 +50,7 @@ import Swiper from '../main/components/swiper/Swiper'
 import { ColorsEnum } from '@/constants/colors/ColorsEnum'
 import CommentsCard from '@/features/commentsCard/CommentsCard'
 import { useNavigation } from '@/hooks/UseNavigation'
-
-type Product = {
-  id: number
-  name: string
-  brand: string
-  price: number
-  originalPrice?: number
-  discount?: number
-  images: string[]
-  category: string
-  subcategory: string
-  rating: number
-  reviewsCount: number
-  isNew: boolean
-  isSale: boolean
-  inStock: boolean
-  stockCount: number
-  sku: string
-  warranty: number // месяцев
-  description: string
-  shortDescription: string
-  specifications: {
-    [key: string]: string
-  }
-  relatedProducts: number[] // массив ID связанных товаров
-}
+import { useGetProductQuery } from '@/globalState/model/product/api/productApi'
 
 type Review = {
   id: number
@@ -113,56 +88,14 @@ type Props = {}
 
 export default function Item({}: Props) {
   const { id } = useParams<{ id: string }>()
-  const [activeTab, setActiveTab] = useState(0)
-  const [selectedImage, setSelectedImage] = useState(0)
-  const [quantity, setQuantity] = useState(1)
-  const [isFavorite, setIsFavorite] = useState(false)
-  const [showSnackbar, setShowSnackbar] = useState(false)
-  const [snackbarMessage, setSnackbarMessage] = useState('')
-
   const navigate = useNavigation();
+  
+  const [activeTab, setActiveTab] = useState(0)
+  const [quantity, setQuantity] = useState(1)
 
-  // Пример данных товара
-  const product: Product = {
-    id: 1,
-    name: 'Смартфон Apple iPhone 15 Pro Max 256GB',
-    brand: 'Apple',
-    price: 124990,
-    originalPrice: 139990,
-    discount: 11,
-    images: [
-      'https://avatarko.ru/img/kartinka/14/zhivotnye_kot_13379.jpg',
-      'https://png.pngtree.com/thumb_back/fh260/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg',
-    ],
-    category: 'Смартфоны',
-    subcategory: 'Apple iPhone',
-    rating: 4.8,
-    reviewsCount: 127,
-    isNew: true,
-    isSale: true,
-    inStock: true,
-    stockCount: 23,
-    sku: 'IP15PROMAX256',
-    warranty: 12,
-    description: 'iPhone 15 Pro Max — самый мощный iPhone в истории. Оснащён революционным чипом A17 Pro, титановым дизайном и самой продвинутой камерой, которая открывает новые возможности для фотографии и видеосъёмки.',
-    shortDescription: 'Титановый дизайн, чип A17 Pro, камера 48 Мп',
-    specifications: {
-      'Экран': '6.7" Super Retina XDR, 2796x1290',
-      'Процессор': 'Apple A17 Pro',
-      'Память': '256 ГБ',
-      'ОЗУ': '8 ГБ',
-      'Камера': 'Основная: 48 Мп, сверхширокоугольная: 12 Мп, телефото: 12 Мп с 5x оптическим зумом',
-      'Фронтальная камера': '12 Мп',
-      'Батарея': '4422 мА·ч',
-      'Зарядка': 'Быстрая зарядка 20W, беспроводная MagSafe',
-      'Защита': 'Ceramic Shield, IP68',
-      'ОС': 'iOS 17',
-      'Цвет': 'Титановый синий',
-      'Вес': '221 г',
-      'Размеры': '159.9 x 76.7 x 8.25 мм'
-    },
-    relatedProducts: [2, 3, 4, 5]
-  }
+  const { data: product } = useGetProductQuery({id: +id!});
+
+
 
   // Пример отзывов
   const reviews: Review[] = [
@@ -204,13 +137,12 @@ export default function Item({}: Props) {
 
   const handleAddToCart = () => {
     // Логика добавления в корзину
-    setSnackbarMessage(`Товар "${product.name}" добавлен в корзину`)
-    setShowSnackbar(true)
+
   }
 
   const handleQuantityChange = (delta: number) => {
     const newQuantity = quantity + delta
-    if (newQuantity >= 1 && newQuantity <= product.stockCount) {
+    if (newQuantity >= 1 && newQuantity <= product?.stock!) {
       setQuantity(newQuantity)
     }
   }
@@ -237,29 +169,22 @@ export default function Item({}: Props) {
                     textAlign: 'start'
                 }}>
                     <Typography variant="h4" gutterBottom>
-                        {product.name}
+                        {product?.title}
                     </Typography>
 
                     <Typography variant="h3">
-                        {product.price.toLocaleString('ru-RU')} ₽
+                        {product?.price} ₽
                     </Typography>
-
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                    <Rating value={product.rating} precision={0.1} readOnly />
-                    <Typography variant="body2" color="text.secondary">
-                        {product.rating} ({product.reviewsCount} отзывов)
-                    </Typography>
-                    </Box>
 
                     <Typography variant="body1">
-                    {product.shortDescription}
+                        {product?.description_short}
                     </Typography>
 
                     <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
                     <Typography>Количество:</Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', border: 1, borderColor: 'divider', borderRadius: 1 }}>
                         <IconButton onClick={() => handleQuantityChange(-1)} disabled={quantity <= 1}>
-                        <Remove />
+                            <Remove />
                         </IconButton>
                         <TextField
                         value={quantity}
@@ -267,22 +192,22 @@ export default function Item({}: Props) {
                         sx={{ width: 60 }}
                         slotProps={{htmlInput: {
                             min: 0,
-                            max: product.stockCount,
+                            max: product?.stock,
                             style: { textAlign: 'center' },
                         }}}
                         onChange={(e) => {
                             const value = parseInt(e.target.value)
-                            if (!isNaN(value) && value >= 1 && value <= product.stockCount) {
+                            if (!isNaN(value) && value >= 1 && value <= product?.stock!) {
                             setQuantity(value)
                             }
                         }}
                         />
-                        <IconButton onClick={() => handleQuantityChange(1)} disabled={quantity >= product.stockCount}>
+                        <IconButton onClick={() => handleQuantityChange(1)} disabled={quantity >= product?.stock!}>
                         <Add />
                         </IconButton>
                     </Box>
                     <Typography variant="body2" color="text.secondary">
-                        Максимум: {product.stockCount} шт.
+                        Максимум: {product?.stock} шт.
                     </Typography>
                     </Stack>
 
@@ -291,7 +216,7 @@ export default function Item({}: Props) {
                         size="large"
                         startIcon={<AddShoppingCart />}
                         onClick={handleAddToCart}
-                        disabled={!product.inStock}
+                        disabled={!product?.stock}
                         sx={{ bgcolor: ColorsEnum.SECONDARY_BG_DARK  }}
                     >
                         В корзину
@@ -307,12 +232,13 @@ export default function Item({}: Props) {
                 }}>
                     <Tabs value={activeTab} onChange={handleTabChange} centered>
                         <Tab label="Описание" />
-                        <Tab label={`Отзывы (${product.reviewsCount})`} />
+                        {/* <Tab label={`Отзывы (${product.reviewsCount})`} /> */}
+                        <Tab label={`Отзывы (todo)`} />
                     </Tabs>    
                     <Box sx={{ p: 3 }}>
                         <TabPanel value={activeTab} index={0}>
                             <Typography variant="body1">
-                                {product.description}
+                                {product?.description}
                             </Typography>
                         </TabPanel>
 

@@ -20,30 +20,14 @@ import {
   Stack,
   type SelectChangeEvent,
   Pagination,
-  Divider
+  Divider,
+  CircularProgress
 } from '@mui/material'
 import { Search, FilterList, ViewModule, ViewList, Clear, FilterAltOff } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
 import { ColorsEnum } from '@/constants/colors/ColorsEnum'
 import { useGetProductsQuery } from '@/globalState/model/product/api/productApi'
 
-type Product = {
-  id: number
-  name: string
-  price: number
-  originalPrice?: number
-  discount?: number
-  image: string
-  category: string
-  rating: number
-  isNew: boolean
-  isSale: boolean
-  inStock: boolean
-}
-
-type SortOption = 'default' | 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'rating'
-
-type ViewMode = 'grid' | 'list'
 
 type Props = {}
 
@@ -51,7 +35,7 @@ export default function ItemsList({}: Props) {
   const [page, setPage] = useState(1)
   const itemsPerPage = 12
 
-  const { data: products } = useGetProductsQuery();
+  const { data: products, isLoading } = useGetProductsQuery();
 
 
   const totalPages = products ? Math.ceil(products.length / itemsPerPage) : 0
@@ -70,6 +54,10 @@ export default function ItemsList({}: Props) {
     
   }, [paginatedProducts])
 
+  if (isLoading) {
+    return <CircularProgress />
+  }
+
   return (
     <Box className="itemsListPage" sx={StyleList.pages}>
       <Box className="container" sx={StyleList.pagesContainer}>
@@ -85,9 +73,9 @@ export default function ItemsList({}: Props) {
                         className="list"
                         sx={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '1fr 1fr 1fr', justifyContent: 'center', flexWrap: 'wrap', gap: '12px' }}>
                         {paginatedProducts.map(product => {
-                            return <ItemCard key={product.id}
-                                // product={product}
-                                // viewMode={viewMode}
+                            return <ItemCard 
+                                key={product.id}
+                                product={product}
                             />
                         })}
                     </Box>

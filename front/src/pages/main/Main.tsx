@@ -1,5 +1,5 @@
 import { StyleList } from '@/constants/styles/StyleList';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, CircularProgress, IconButton, Typography } from '@mui/material';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css'
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
@@ -16,6 +16,10 @@ export default function Main({}: Props) {
     const { data } = useGetNewsImagesQuery();
     const { data: products, isLoading, isError } = useGetDiscountsQuery();
 
+    if (isLoading) {
+      return <CircularProgress />
+    }
+
     return (
         <Box className="mainPage" sx={StyleList.pages}>
             <Box className="container" sx={StyleList.pagesContainer}>
@@ -27,8 +31,8 @@ export default function Main({}: Props) {
                         Акции и скидки
                     </Typography>
                     <Box sx={{display: 'flex', justifyContent: "space-between"}}>
-                        { products?.map((item) => (
-                            <ItemCard />
+                        { products?.map((product) => (
+                            <ItemCard key={product.id} product={product} />
                         ))}
                     </Box>
 

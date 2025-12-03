@@ -23,14 +23,15 @@ export const apiProduct = createApi({
     }),
 
     
-    getProduct: builder.query<IProduct[], void>({
-      query: () => ({
-        url: `products`,
+    getProduct: builder.query<IProduct, {id: number}>({
+      query: (body) => ({
+        url: `products/item`,
         method: 'GET',
+        params: body
       }),
     }),
 
   }),
 });
 
-export const { useGetDiscountsQuery, useGetProductsQuery } = apiProduct;
+export const { useGetDiscountsQuery, useGetProductsQuery, useGetProductQuery } = apiProduct;

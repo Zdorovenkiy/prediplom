@@ -22,7 +22,7 @@ export enum AppRoutes {
     CONTACTS = "contacts",
     BASKET = "basket",
     ITEMS_LIST = "itemsList",
-    ITEM_PAGE = "itemsPage",
+    ITEM_PAGE = "itemPage",
     COMMENTS = "comments",
 }
 
@@ -42,7 +42,7 @@ export const RoutePathNames: Record<AppRoutes, string> = {
 
 export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.COMMENTS]: '/comments',
-    [AppRoutes.ITEM_PAGE]: '/itemsPage',
+    [AppRoutes.ITEM_PAGE]: '/itemPage/:id',
     [AppRoutes.ITEMS_LIST]: '/itemsList',
     [AppRoutes.BASKET]: '/basket',
     [AppRoutes.CONTACTS]: '/contacts',
@@ -60,7 +60,7 @@ export const routeConfig: Record<AppRoutes, RouteObject> = {
         element: <Comments />,
     },
     [AppRoutes.ITEM_PAGE]: {
-        path: RoutePath.itemsPage,
+        path: RoutePath.itemPage,
         element: <Item />,
     },
     [AppRoutes.ITEMS_LIST]: {
