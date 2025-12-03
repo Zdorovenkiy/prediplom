@@ -49,10 +49,13 @@ export default function SignUp({}: Props) {
             email: formData.email,
             password: formData.password
         };
-        
-        
 
-        await register(registerData);
+        const response = await register(registerData);
+
+        if (response.data?.role_id) {
+            localStorage.setItem('token', String(response.data.role_id));
+            localStorage.setItem('id', String(response.data.id));
+        }
 
         setFormData({
             surname: '',

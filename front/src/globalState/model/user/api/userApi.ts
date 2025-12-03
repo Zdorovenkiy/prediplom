@@ -15,7 +15,7 @@ export const apiUser = createApi({
       }),
     }),
 
-    auth: builder.mutation<IUser, {user: IUser}>({
+    auth: builder.mutation<IUser, IUser>({
       query: (body) => ({
         url: `users/auth`,
         method: 'POST',

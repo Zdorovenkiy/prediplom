@@ -66,7 +66,7 @@ export class UsersController {
                 throw new HttpException(result.message, HttpStatus.NOT_FOUND);
             }
             
-            return result.message;
+            return { message: result.message};
         } catch (error) {
             throw new HttpException(
                 'Ошибка при отправке email',

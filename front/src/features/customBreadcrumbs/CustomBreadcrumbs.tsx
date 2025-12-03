@@ -10,7 +10,6 @@ type Props = {
 }
 
 export default function CustomBreadcrumbs({path}: Props) {
-    console.log("path", path);
     const navigate = useNavigation();
     
     return (
@@ -28,8 +27,6 @@ export default function CustomBreadcrumbs({path}: Props) {
                     Главная
             </Typography>
             { path?.map((item) => {
-                // console.log(RoutePathNames[item]);
-                
                 return  <Typography 
                             onClick={() => navigate(RoutePath[item])} 
                             sx={{ 
