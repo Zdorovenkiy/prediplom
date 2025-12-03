@@ -10,7 +10,7 @@ export interface ordersAttributes {
     id?: number;
     user_id: number;
     total: string;
-    is_payed?: number;
+    is_payed?: boolean;
 }
 
 @Table({
@@ -41,7 +41,7 @@ export class orders extends Model<ordersAttributes, ordersAttributes> implements
     	type: DataType.TINYINT,
     	defaultValue: "0" 
     })
-    	is_payed?: number;
+    	is_payed?: boolean;
 
     @BelongsTo(() => users)
     user!: users;
