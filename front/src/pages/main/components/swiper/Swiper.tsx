@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight, Image } from '@mui/icons-material'
 import { Box, IconButton } from '@mui/material'
 import { useKeenSlider } from 'keen-slider/react'
+import { useEffect } from 'react'
 
 type Props = {
     data?: any[]
@@ -18,32 +19,32 @@ export default function Swiper({data}: Props) {
 
     const goToPrevSlide = () => {
         instanceRef.current?.prev()
+        console.log("prev", instanceRef);
     }
 
     const goToNextSlide = () => {
         instanceRef.current?.next()
+        console.log("next", instanceRef);
+        
     }
+
+    useEffect(() => {
+        console.log("sliderRef", sliderRef);
+        
+    }, [sliderRef])
     return (
         <Box className="swiper" sx={{width: "100%", position: 'relative'}}>
+            
             <Box ref={sliderRef} className="keen-slider">
-                { data ? data.map((item => (
-                    <div className="keen-slider__slide" style={{height: "600px"}}>
-                        <img style={{height: "600px"}} src={item.image} alt={item.name} />
+                { data?.length ? data.map((item => (
+                    <div key={item.id} className="keen-slider__slide" style={{height: "600px"}}>
+                        <img style={{height: "600px"}} src={item.image} alt={item.name || "alt"} />
                     </div>
                 ))) : (
-                    <>
-                        <div className="keen-slider__slide">
-                            <Box sx={{bgcolor: "red", height: "600px", display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '2rem'}}>Slide 1</Box>
-                        </div>
-                        <div className="keen-slider__slide">
-                            <Box sx={{bgcolor: "black", height: "600px", display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '2rem'}}>Slide 2</Box>
-                        </div>
-                        <div className="keen-slider__slide">
-                            <Box sx={{bgcolor: "blue", height: "600px", display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '2rem'}}>Slide 3</Box>
-                        </div>
-                    </>
-                )
-                }
+                    <div className="keen-slider__slide" style={{height: "600px"}}>
+                        <img style={{height: "600px"}} src={import.meta.env.VITE_PLACEHOLDER} alt={"default"} />
+                    </div>
+                )}
             </Box>
             <IconButton 
                 onClick={goToPrevSlide}

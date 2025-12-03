@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { products } from 'src/models';
+import { product_images, products } from 'src/models';
 
 @Injectable()
 export class ProductsService {
@@ -16,14 +16,27 @@ export class ProductsService {
     }
 
     async findAll() {
-        return await this.currentModel.findAll();
+        return await this.currentModel.findAll({
+            include: [
+                {
+                    model: product_images,
+                    as: 'images',
+                }
+            ]
+        });
     }
 
     async findOne(id: number) {
         return await this.currentModel.findOne({
             where: {
                 id: id
-            }
+            },
+            include: [
+                {
+                    model: product_images,
+                    as: 'images',
+                }
+            ]
         });
     }
 
@@ -50,6 +63,12 @@ export class ProductsService {
                 is_discount: true
             },
             order: [['id', 'DESC']],
+            include: [
+                {
+                    model: product_images,
+                    as: 'images',
+                }
+            ]
         });
     }
 }

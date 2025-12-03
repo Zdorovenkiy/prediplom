@@ -41,7 +41,7 @@ export const RoutePathNames: Record<AppRoutes, string> = {
 };
 
 export const RoutePath: Record<AppRoutes, string> = {
-    [AppRoutes.COMMENTS]: '/comments',
+    [AppRoutes.COMMENTS]: '/comments/:id',
     [AppRoutes.ITEM_PAGE]: '/itemPage/:id',
     [AppRoutes.ITEMS_LIST]: '/itemsList',
     [AppRoutes.BASKET]: '/basket',

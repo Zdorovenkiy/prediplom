@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
@@ -15,5 +15,10 @@ export class ReviewsController {
   @Get()
   async findAll() {
     return await this.reviewsService.findAll();
+  }
+
+  @Get('product')
+  async findAllByProduct(@Query('id') id: number, @Query('limit') limit?: number) {
+    return await this.reviewsService.findAllByProduct(id, limit);
   }
 }

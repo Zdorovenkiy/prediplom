@@ -22,7 +22,8 @@ import {
   Link as MuiLink,
   Alert,
   Snackbar,
-  Badge
+  Badge,
+  CircularProgress
 } from '@mui/material'
 import {
   AddShoppingCart,
@@ -51,6 +52,7 @@ import { ColorsEnum } from '@/constants/colors/ColorsEnum'
 import CommentsCard from '@/features/commentsCard/CommentsCard'
 import { useNavigation } from '@/hooks/UseNavigation'
 import { useGetProductQuery } from '@/globalState/model/product/api/productApi'
+import { useGetReviewQuery } from '@/globalState/model/review/api/reviewApi'
 
 type Review = {
   id: number
@@ -93,43 +95,43 @@ export default function Item({}: Props) {
   const [activeTab, setActiveTab] = useState(0)
   const [quantity, setQuantity] = useState(1)
 
-  const { data: product } = useGetProductQuery({id: +id!});
-
+  const { data: product, isLoading } = useGetProductQuery({id: +id!});
+  const { data: reviews } = useGetReviewQuery({id: +id!, limit: 3});
 
 
   // Пример отзывов
-  const reviews: Review[] = [
-    {
-      id: 1,
-      author: 'Александр Петров',
-      rating: 5,
-      date: '15.12.2023',
-      text: 'Отличный телефон! Камера просто супер, батареи хватает на целый день активного использования.',
-      pros: 'Качество камеры, производительность, дизайн',
-      cons: 'Высокая цена',
-      verifiedPurchase: true
-    },
-    {
-      id: 2,
-      author: 'Мария Иванова',
-      rating: 4,
-      date: '10.12.2023',
-      text: 'Хороший телефон, но тяжеловат. В остальном всё отлично.',
-      pros: 'Экран, звук, камера',
-      cons: 'Вес, цена',
-      verifiedPurchase: true
-    },
-    {
-      id: 3,
-      author: 'Дмитрий Смирнов',
-      rating: 5,
-      date: '05.12.2023',
-      text: 'Лучший iPhone на данный момент. Титан выглядит премиально.',
-      pros: 'Материалы, производительность, камера',
-      cons: 'Нет',
-      verifiedPurchase: false
-    }
-  ]
+//   const reviews: Review[] = [
+//     {
+//       id: 1,
+//       author: 'Александр Петров',
+//       rating: 5,
+//       date: '15.12.2023',
+//       text: 'Отличный телефон! Камера просто супер, батареи хватает на целый день активного использования.',
+//       pros: 'Качество камеры, производительность, дизайн',
+//       cons: 'Высокая цена',
+//       verifiedPurchase: true
+//     },
+//     {
+//       id: 2,
+//       author: 'Мария Иванова',
+//       rating: 4,
+//       date: '10.12.2023',
+//       text: 'Хороший телефон, но тяжеловат. В остальном всё отлично.',
+//       pros: 'Экран, звук, камера',
+//       cons: 'Вес, цена',
+//       verifiedPurchase: true
+//     },
+//     {
+//       id: 3,
+//       author: 'Дмитрий Смирнов',
+//       rating: 5,
+//       date: '05.12.2023',
+//       text: 'Лучший iPhone на данный момент. Титан выглядит премиально.',
+//       pros: 'Материалы, производительность, камера',
+//       cons: 'Нет',
+//       verifiedPurchase: false
+//     }
+//   ]
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
@@ -147,6 +149,10 @@ export default function Item({}: Props) {
     }
   }
 
+  if (isLoading) {
+    return <CircularProgress />
+  }
+
   return (
     <Box className="itemPage" sx={StyleList.pages}>
         <Box className="container" sx={StyleList.pagesContainer}>
@@ -159,7 +165,7 @@ export default function Item({}: Props) {
                 justifyContent: 'center',
                 width: '100%'
             }}>
-                <Swiper />
+                <Swiper data={product?.images} />
                 <Box className='desc' sx={{ 
                     width: '100%', 
                     display: 'flex',
@@ -232,8 +238,7 @@ export default function Item({}: Props) {
                 }}>
                     <Tabs value={activeTab} onChange={handleTabChange} centered>
                         <Tab label="Описание" />
-                        {/* <Tab label={`Отзывы (${product.reviewsCount})`} /> */}
-                        <Tab label={`Отзывы (todo)`} />
+                        <Tab label={`Отзывы`} />
                     </Tabs>    
                     <Box sx={{ p: 3 }}>
                         <TabPanel value={activeTab} index={0}>
@@ -252,7 +257,7 @@ export default function Item({}: Props) {
                                 <Button
                                     variant="contained"
                                     size="large"
-                                    onClick={() => navigate(RoutePath.comments)}
+                                    onClick={() => navigate(`${RoutePath.comments.replace(':id', String(id))}`)}
                                     sx={{ 
                                         bgcolor: ColorsEnum.SECONDARY_BG_LIGHT, 
                                         color: ColorsEnum.SECONDARY_BG_DARK,
@@ -269,7 +274,7 @@ export default function Item({}: Props) {
                                 justifyContent: 'flex-start',
                                 textAlign: 'start'
                             }}>
-                                {reviews.map((review) => (
+                                {reviews?.map((review) => (
                                     <CommentsCard review={review} />
                                 ))}
                             </Box>

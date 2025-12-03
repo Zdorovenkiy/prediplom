@@ -15,16 +15,11 @@ export class OrdersService {
         ) {}
 
   async create(createOrderDto: CreateOrderDto) {
-    console.log("createOrderDto", createOrderDto);
     const {products, ...orders} = createOrderDto;
-
-    console.log("products", products);
-    console.log("orders", orders);
 
 
     
     const orderData = await this.currentModel.create(orders, {raw: true});
-    console.log("orderData.id", orderData.id);
     
     const productsData = products.map((item) => {
         return {...item, order_id: orderData.id!};
@@ -36,7 +31,7 @@ export class OrdersService {
   }
 
 
-//   findAll() {
-//     return `This action returns all orders`;
-//   }
+  findAll() {
+    return this.currentModel.findAll();
+  }
 }

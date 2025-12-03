@@ -18,14 +18,14 @@ export default function ItemCard({product}: Props) {
     }
 
     return (
-        <Card sx={{ maxWidth: 345, bgcolor: ColorsEnum.MAIN_BG }}>
-            <CardActionArea disableRipple>
+        <Card sx={{ width: '100%', maxWidth: 345, bgcolor: ColorsEnum.MAIN_BG }}>
+            <CardActionArea disableRipple sx={{display: 'flex', flexDirection: "column", justifyContent: 'space-between', height: '100%', textAlign: 'start', padding: '12px'}}>
                 <CardMedia
-                    sx={{ height: 140 }}
-                    image="https://imagekit.io/blog/content/images/2019/12/image-optimization.jpg"
+                    sx={{ height: 140, width: '100%' }}
+                    image={product?.images?.length ? product.images[0].image : import.meta.env.VITE_PLACEHOLDER}
                     title="title"
                 />
-                <CardContent>
+                <CardContent sx={{width: '100%'}}>
                     <Box sx={{display: 'flex', flexDirection: 'column', gap: '0px'}}>
                         <Typography className='name' gutterBottom variant="h5" component="div">
                             {product.title}
@@ -38,12 +38,12 @@ export default function ItemCard({product}: Props) {
                         {product.description_short}
                     </Typography>
                 </CardContent>
-                <CardActions sx={{display: 'flex', justifyContent: "space-between"}}>
+                <CardActions sx={{display: 'flex', justifyContent: "space-between", width: '100%'}}>
                     <Button 
                         size="small" 
                         variant='contained' 
                         sx={{bgcolor: ColorsEnum.SECONDARY_BG_DARK, color: ColorsEnum.SECONDARY_TEXT}}
-                        onClick={() => navigate(`${RoutePath.itemPage.replace(':id', '1')}`)}
+                        onClick={() => navigate(`${RoutePath.itemPage.replace(':id', String(product.id))}`)}
                         >Посмотреть</Button>
                     <IconButton aria-label="basketIn">
                         <AddShoppingCartIcon sx={{color: ColorsEnum.MAIN_TEXT, fontSize: "48px"}} />

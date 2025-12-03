@@ -11,6 +11,7 @@ import { apiNewsImages } from '../model/newsImages/api/newsImagesApi';
 import { apiFeedback } from '../model/feedback/api/feedbackApi';
 import { productReducer } from '../model/product/slice/userSlice';
 import { apiProduct } from '../model/product/api/productApi';
+import { apiReview } from '../model/review/api/reviewApi';
 // import { matchApi } from '@/entities/match/model/api/match.api';
 // import { listenerReducer } from '@/entities/listeners';
 // import { timerReducer } from '@/entities/timer';
@@ -29,6 +30,7 @@ export function createReduxStore(initialState?: StateSchema) {
     [apiNewsImages.reducerPath]: apiNewsImages.reducer,
     [apiFeedback.reducerPath]: apiFeedback.reducer,
     [apiProduct.reducerPath]: apiProduct.reducer,
+    [apiReview.reducerPath]: apiReview.reducer,
   };
 
   const combinedReducers = combineReducers({
@@ -44,7 +46,8 @@ export function createReduxStore(initialState?: StateSchema) {
         apiUser.middleware,
         apiNewsImages.middleware,
         apiFeedback.middleware,
-        apiProduct.middleware
+        apiProduct.middleware,
+        apiReview.middleware
     ),
   });
 

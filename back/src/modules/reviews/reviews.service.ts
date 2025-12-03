@@ -18,4 +18,19 @@ export class ReviewsService {
     async findAll() {
         return await this.currentModel.findAll();
     }
+
+    async findAllByProduct(id: number, limit: number = 0 ) {
+        let option: any = {
+            where: {
+                product_id: id
+            }
+        }
+        if (limit) {
+            option = {
+                ...option,
+                limit: Number(limit)
+            }
+        }
+        return await this.currentModel.findAll(option);
+    }
 }
