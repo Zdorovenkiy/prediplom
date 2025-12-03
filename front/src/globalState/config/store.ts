@@ -7,13 +7,15 @@ import {
 import type { StateSchema } from '../types/stateSchema';
 import { userReducer } from '../model/user/slice/userSlice';
 import { apiUser } from '../model/user/api/userApi';
+import { apiNewsImages } from '../model/newsImages/api/newsImagesApi';
 // import { matchApi } from '@/entities/match/model/api/match.api';
 // import { listenerReducer } from '@/entities/listeners';
 // import { timerReducer } from '@/entities/timer';
 
 export function createReduxStore(initialState?: StateSchema) {
   const rootReducers: ReducersMapObject<StateSchema> = {
-    user: userReducer
+    user: userReducer,
+
     // auth: authReducer,
     // listeners: listenerReducer,
     // timer: timerReducer,
@@ -21,6 +23,7 @@ export function createReduxStore(initialState?: StateSchema) {
 
   const apiReducers = {
     [apiUser.reducerPath]: apiUser.reducer,
+    [apiNewsImages.reducerPath]: apiNewsImages.reducer,
   };
 
   const combinedReducers = combineReducers({
@@ -33,7 +36,8 @@ export function createReduxStore(initialState?: StateSchema) {
     preloadedState: initialState,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
-        apiUser.middleware
+        apiUser.middleware,
+        apiNewsImages.middleware
     ),
   });
 
