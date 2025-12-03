@@ -1,6 +1,8 @@
 import {
-	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
+	Model, Table, Column, DataType, Index, Sequelize, ForeignKey, 
+    BelongsTo
 } from "sequelize-typescript";
+import { products } from "./products";
 
 export interface product_imagesAttributes {
     id?: number;
@@ -21,6 +23,7 @@ export class product_images extends Model<product_imagesAttributes, product_imag
     })
     	declare id?: number;
 
+    @ForeignKey(() => products)
     @Column({
     	type: DataType.INTEGER 
     })
@@ -30,5 +33,8 @@ export class product_images extends Model<product_imagesAttributes, product_imag
     	type: DataType.STRING(255) 
     })
     	image!: string;
+
+    @BelongsTo(() => products)
+        product!: products;
 
 }

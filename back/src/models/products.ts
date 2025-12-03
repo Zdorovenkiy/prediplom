@@ -1,6 +1,8 @@
 import {
-	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
+	Model, Table, Column, DataType, Index, Sequelize, ForeignKey, 
+    HasMany
 } from "sequelize-typescript";
+import { product_images } from "./product_images";
 
 export interface productsAttributes {
     id?: number;
@@ -56,5 +58,8 @@ export class products extends Model<productsAttributes, productsAttributes> impl
     	type: DataType.BOOLEAN
     })
     	is_discount: boolean;
+
+    @HasMany(() => product_images)
+        images!: product_images[];
 
 }

@@ -56,6 +56,9 @@ export default function ItemsList({}: Props) {
   const [page, setPage] = useState(1)
   const itemsPerPage = 12
 
+  const { data: products, isLoading, isError } = useGetProductsQuery();
+
+
   // Пример данных товаров
 //   const products: Product[] = [
 //     { id: 1, name: 'Смартфон Apple iPhone 15 Pro', price: 99990, originalPrice: 109990, discount: 10, image: '/images/iphone.jpg', category: 'Смартфоны', rating: 4.8, isNew: true, isSale: true, inStock: true },
@@ -68,7 +71,6 @@ export default function ItemsList({}: Props) {
 //     { id: 8, name: 'Телевизор LG OLED C3', price: 199990, originalPrice: 229990, discount: 13, image: '/images/tv.jpg', category: 'Телевизоры', rating: 4.8, isNew: true, isSale: true, inStock: true },
 //   ]
 
-  const products: Product[] = []
 
   // Фильтрация и сортировка
 //   const filteredProducts = products

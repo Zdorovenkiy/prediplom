@@ -44,8 +44,8 @@ export class orders extends Model<ordersAttributes, ordersAttributes> implements
     	is_payed?: boolean;
 
     @BelongsTo(() => users)
-    user!: users;
+        user!: users;
 
     @HasMany(() => order_products)
-    order_products!: order_products[];
+        order_products!: order_products[];
 }

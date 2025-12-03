@@ -8,11 +8,14 @@ import ItemCard from '@/features/itemCard/ItemCard';
 import CustomBreadcrumbs from '@/features/customBreadcrumbs/CustomBreadcrumbs';
 import { AppRoutes, RoutePath } from '@/routers/config/routeConfig';
 import { useGetNewsImagesQuery } from '@/globalState/model/newsImages/api/newsImagesApi';
+import { useGetDiscountsQuery } from '@/globalState/model/product/api/productApi';
 
 type Props = {}
 
 export default function Main({}: Props) {
-    const { data, isLoading, isError } = useGetNewsImagesQuery();
+    const { data } = useGetNewsImagesQuery();
+    const { data: products, isLoading, isError } = useGetDiscountsQuery();
+
     return (
         <Box className="mainPage" sx={StyleList.pages}>
             <Box className="container" sx={StyleList.pagesContainer}>
@@ -24,9 +27,9 @@ export default function Main({}: Props) {
                         Акции и скидки
                     </Typography>
                     <Box sx={{display: 'flex', justifyContent: "space-between"}}>
-                        <ItemCard />
-                        <ItemCard />
-                        <ItemCard />
+                        { products?.map((item) => (
+                            <ItemCard />
+                        ))}
                     </Box>
 
                 </Box>
