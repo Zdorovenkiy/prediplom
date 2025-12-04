@@ -21,6 +21,12 @@ import CustomBreadcrumbs from '@/features/customBreadcrumbs/CustomBreadcrumbs'
 import { AppRoutes, RoutePath } from '@/routers/config/routeConfig'
 import { useNavigation } from '@/hooks/UseNavigation'
 import { ColorsEnum } from '@/constants/colors/ColorsEnum'
+import { useAppSelector } from '@/hooks/useAppSelector'
+import type { StateSchema } from '@/globalState/types/stateSchema'
+import { useEffect, useState } from 'react'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { orderAction } from '@/globalState/model/order/slice/orderSlice'
+import { useCreateOrderMutation } from '@/globalState/model/order/api/userApi'
 
 type CartItem = {
   id: number
@@ -34,32 +40,54 @@ type Props = {}
 
 export default function Basket({}: Props) {
     const navigate = useNavigation();
- 
-    const cartItems: CartItem[] = [
-        { id: 1, name: 'Товар 1', price: 1000, quantity: 2, image: '/path/to/image1.jpg' },
-        { id: 2, name: 'Товар 2', price: 2500, quantity: 1, image: '/path/to/image2.jpg' },
-        { id: 3, name: 'Товар 3', price: 500, quantity: 3, image: '/path/to/image3.jpg' },
-    ]
 
-    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+    const basket = useAppSelector((state: StateSchema) => state.order)
+
+    const [cartItems, setCartItems] = useState(basket.products);
+    const dispatch = useAppDispatch();
+
+    const [create, { isSuccess, isError, isLoading, message }] = useCreateOrderMutation<{
+        message: string;
+        isSuccess: boolean;
+        isError: boolean;
+        isLoading: boolean;
+    }>();
+
+    useEffect(()=> {
+        console.log("basket", basket);
+        setCartItems(basket.products);
+    }, [basket])
+
+    const subtotal = cartItems?.reduce((sum, item) => sum + (item.price! * item.quantity!), 0) || 0
     const deliveryFee = 300
-    const total = subtotal + deliveryFee
+    const total = subtotal + deliveryFee;
 
     const handleQuantityChange = (id: number, newQuantity: number) => {
         if (newQuantity < 1) return
-        // Здесь будет логика обновления количества
-        console.log(`Изменение количества товара ${id} на ${newQuantity}`)
+        
+        console.log(id, newQuantity);
+        
+        dispatch(orderAction.setQuantity({id: id, quantity: newQuantity}));
+        dispatch(orderAction.setTotal(subtotal));
     }
 
     const handleRemoveItem = (id: number) => {
-        // Здесь будет логика удаления товара
-        console.log(`Удаление товара ${id}`)
+        dispatch(orderAction.removeProduct(id));
     }
 
-    const handleCheckout = () => {
-        // Здесь будет логика оформления заказа
-        console.log('Оформление заказа')
+    const handleCheckout = async () => {
+        const resp = await create(basket);
+        console.log(resp);
+        
     }
+
+    useEffect(() => {
+        console.log("message", message);
+        
+        if (isSuccess) {
+            dispatch(orderAction.removeAll());
+        }
+    }, [isLoading])
 
     return (
         <Box className="basketPage" sx={StyleList.pages}>
@@ -69,7 +97,7 @@ export default function Basket({}: Props) {
                 Корзина товаров
             </Typography>
 
-            {cartItems.length === 0 ? (
+            {cartItems?.length === 0 ? (
             <Box sx={{ textAlign: 'center', py: 8 }}>
                 <ShoppingCart sx={{ fontSize: 80, color: 'text.secondary', mb: 2 }} />
                 <Typography variant="h6" color="text.secondary" gutterBottom>
@@ -78,7 +106,7 @@ export default function Basket({}: Props) {
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
                     Добавьте товары, чтобы сделать заказ
                 </Typography>
-                <Button variant="contained" sx={{bgcolor: ColorsEnum.SECONDARY_BG_DARK}} onClick={() => navigate(RoutePath.main)}>
+                <Button variant="contained" sx={{bgcolor: ColorsEnum.SECONDARY_BG_DARK}} onClick={() => navigate(RoutePath.itemsList)}>
                     Перейти к покупкам
                 </Button>
             </Box>
@@ -102,16 +130,10 @@ export default function Basket({}: Props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {cartItems.map((item) => (
-                            <TableRow key={item.id}>
+                            {cartItems?.map((item) => (
+                            <TableRow key={item.product_id}>
                                 <TableCell>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                    <Box
-                                    component="img"
-                                    src={item.image}
-                                    alt={item.name}
-                                    sx={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 1 }}
-                                    />
                                     <Typography variant="body1">{item.name}</Typography>
                                 </Box>
                                 </TableCell>
@@ -119,7 +141,7 @@ export default function Basket({}: Props) {
                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <IconButton
                                     size="small"
-                                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                    onClick={() => handleQuantityChange(item.product_id!, item.quantity! - 1)}
                                     >
                                     <Remove />
                                     </IconButton>
@@ -134,30 +156,30 @@ export default function Basket({}: Props) {
                                     onChange={(e) => {
                                         const value = parseInt(e.target.value)
                                         if (!isNaN(value)) {
-                                        handleQuantityChange(item.id, value)
+                                        handleQuantityChange(item.product_id!, value)
                                         }
                                     }}
                                     />
                                     <IconButton
                                     size="small"
-                                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                    onClick={() => handleQuantityChange(item.product_id!, item.quantity! + 1)}
                                     >
                                     <Add />
                                     </IconButton>
                                 </Box>
                                 </TableCell>
                                 <TableCell align="right">
-                                <Typography>{item.price.toLocaleString('ru-RU')} ₽</Typography>
+                                <Typography>{item.price?.toLocaleString('ru-RU')} ₽</Typography>
                                 </TableCell>
                                 <TableCell align="right">
                                 <Typography variant="subtitle1" fontWeight="bold">
-                                    {(item.price * item.quantity).toLocaleString('ru-RU')} ₽
+                                    {(item.price! * item.quantity!).toLocaleString('ru-RU')} ₽
                                 </Typography>
                                 </TableCell>
                                 <TableCell align="center">
                                 <IconButton
                                     color="error"
-                                    onClick={() => handleRemoveItem(item.id)}
+                                    onClick={() => handleRemoveItem(item.product_id!)}
                                 >
                                     <Delete />
                                 </IconButton>
@@ -186,7 +208,7 @@ export default function Basket({}: Props) {
                         </Typography>
                         
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                            <Typography color="text.secondary">Товары ({cartItems.reduce((sum, item) => sum + item.quantity, 0)})</Typography>
+                            <Typography color="text.secondary">Товары ({cartItems?.reduce((sum, item) => sum + item.quantity!, 0)})</Typography>
                             <Typography>{subtotal.toLocaleString('ru-RU')} ₽</Typography>
                         </Box>
                         

@@ -8,14 +8,17 @@ import type { IReview } from '@/globalState/model/review/types/reviewType'
 import { AppRoutes } from '@/routers/config/routeConfig'
 import { Box, Button, CircularProgress } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 type Props = {}
 
 export default function Comments({}: Props) {
     const { id } = useParams<{ id: string }>()
     const { data: reviews, isLoading, refetch } = useGetReviewQuery({id: +id!});
-
+    const location = useLocation();
+    const parentId = location.state as string;
+    console.log("parentId", parentId);
+    
     const [send, { isSuccess, isError, isLoading: sendLoading, message }] = useSendReviewMutation<{
         message: string;
         isSuccess: boolean;
@@ -79,7 +82,7 @@ export default function Comments({}: Props) {
     return (
         <Box className="CommentsPage" sx={StyleList.pages}>
             <Box className="container" sx={StyleList.pagesContainer}>
-                <CustomBreadcrumbs path={[AppRoutes.ITEMS_LIST, AppRoutes.ITEM_PAGE, AppRoutes.COMMENTS]} /> 
+                <CustomBreadcrumbs path={[AppRoutes.ITEMS_LIST, AppRoutes.ITEM_PAGE, AppRoutes.COMMENTS]} id={[parentId, String(id)]} /> 
 
                 <Box 
                     className='comments' 

@@ -6,11 +6,15 @@ import { AppRoutes, RoutePath, RoutePathNames } from '@/routers/config/routeConf
 import { useNavigation } from '@/hooks/UseNavigation';
 
 type Props = {
+    id?: string[],
     path?: AppRoutes[]
 }
 
-export default function CustomBreadcrumbs({path}: Props) {
+export default function CustomBreadcrumbs({id, path}: Props) {
     const navigate = useNavigation();
+
+    console.log(path, id);
+    
     
     return (
         <Breadcrumbs aria-label="breadcrumb" sx={{alignSelf: "self-start", fontSize: '16px'}}>
@@ -27,8 +31,10 @@ export default function CustomBreadcrumbs({path}: Props) {
                     Главная
             </Typography>
             { path?.map((item) => {
+                const route = RoutePath[item].includes(':id') && id?.length ? RoutePath[item].replace(':id', id[0]) : RoutePath[item];
+                const currentId = RoutePath[item].includes(':id') && id?.length ? id?.shift() : undefined;
                 return  <Typography 
-                            onClick={() => navigate(RoutePath[item])} 
+                            onClick={() => navigate(route, currentId)} 
                             sx={{ 
                                 color: ColorsEnum.MAIN_TEXT, 
                                 fontSize: '16px',

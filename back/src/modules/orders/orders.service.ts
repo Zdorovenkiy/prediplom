@@ -27,7 +27,7 @@ export class OrdersService {
     
     await this.orderProductModel.bulkCreate(productsData);
     
-    return 'success';
+    return {message : 'success'};
   }
 
 

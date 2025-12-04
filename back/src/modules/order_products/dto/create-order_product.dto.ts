@@ -13,6 +13,9 @@ export class CreateOrderProductDto {
   @Type(() => Number)
   order_id!: number;
 
+  @IsOptional()
+  name!: string;
+
   @IsInt()
   @IsNotEmpty({ message: 'Количество обязательно' })
   @Min(1, { message: 'Количество должно быть не менее 1' })

@@ -44,7 +44,7 @@ import {
   Email,
   PhotoCamera
 } from '@mui/icons-material'
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import Swiper from '../main/components/swiper/Swiper'
@@ -53,17 +53,11 @@ import CommentsCard from '@/features/commentsCard/CommentsCard'
 import { useNavigation } from '@/hooks/UseNavigation'
 import { useGetProductQuery } from '@/globalState/model/product/api/productApi'
 import { useGetReviewQuery } from '@/globalState/model/review/api/reviewApi'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { orderAction } from '@/globalState/model/order/slice/orderSlice'
+import { OrderMaker } from '@/shared/orderMaker'
 
-type Review = {
-  id: number
-  author: string
-  rating: number
-  date: string
-  text: string
-  pros?: string
-  cons?: string
-  verifiedPurchase: boolean
-}
+
 
 type TabPanelProps = {
   children?: React.ReactNode
@@ -98,7 +92,11 @@ export default function Item({}: Props) {
   const { data: product, isLoading } = useGetProductQuery({id: +id!});
   const { data: reviews } = useGetReviewQuery({id: +id!, limit: 3});
 
-
+  useEffect(() => {
+    console.log("id", id);
+    
+  }, [id])
+    const dispatch = useAppDispatch();
   // Пример отзывов
 //   const reviews: Review[] = [
 //     {
@@ -138,8 +136,7 @@ export default function Item({}: Props) {
   }
 
   const handleAddToCart = () => {
-    // Логика добавления в корзину
-
+        dispatch(orderAction.setProducts(OrderMaker(product!)))
   }
 
   const handleQuantityChange = (delta: number) => {
@@ -156,7 +153,7 @@ export default function Item({}: Props) {
   return (
     <Box className="itemPage" sx={StyleList.pages}>
         <Box className="container" sx={StyleList.pagesContainer}>
-            <CustomBreadcrumbs path={[AppRoutes.ITEMS_LIST, AppRoutes.ITEM_PAGE]} />
+            <CustomBreadcrumbs path={[AppRoutes.ITEMS_LIST, AppRoutes.ITEM_PAGE]} id={[id!]} />
 
             <Box className="item" sx={{ 
                 display: 'flex', 
@@ -238,7 +235,7 @@ export default function Item({}: Props) {
                 }}>
                     <Tabs value={activeTab} onChange={handleTabChange} centered>
                         <Tab label="Описание" />
-                        <Tab label={`Отзывы`} />
+                        <Tab label="Отзывы" />
                     </Tabs>    
                     <Box sx={{ p: 3 }}>
                         <TabPanel value={activeTab} index={0}>
@@ -257,7 +254,7 @@ export default function Item({}: Props) {
                                 <Button
                                     variant="contained"
                                     size="large"
-                                    onClick={() => navigate(`${RoutePath.comments.replace(':id', String(id))}`)}
+                                    onClick={() => navigate(`${RoutePath.comments.replace(':id', String(id))}`, String(id))}
                                     sx={{ 
                                         bgcolor: ColorsEnum.SECONDARY_BG_LIGHT, 
                                         color: ColorsEnum.SECONDARY_BG_DARK,

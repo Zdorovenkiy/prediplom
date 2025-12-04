@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { reviews } from 'src/models';
+import { reviews, users } from 'src/models';
 
 @Injectable()
 export class ReviewsService {
@@ -16,14 +16,27 @@ export class ReviewsService {
     }
 
     async findAll() {
-        return await this.currentModel.findAll();
+        return await this.currentModel.findAll({
+            include: [
+                {
+                    model: users,
+                    as: 'user',
+                }
+            ]
+        });
     }
 
     async findAllByProduct(id: number, limit: number = 0 ) {
         let option: any = {
             where: {
                 product_id: id
-            }
+            },
+            include: [
+                {
+                    model: users,
+                    as: 'user',
+                }
+            ]
         }
         if (limit) {
             option = {

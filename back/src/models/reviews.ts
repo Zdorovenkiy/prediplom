@@ -1,6 +1,9 @@
 import {
-	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
+	Model, Table, Column, DataType, Index, Sequelize, ForeignKey, BelongsTo
 } from "sequelize-typescript";
+import { order_products } from "./order_products";
+import { users } from "./users";
+import { products } from "./products";
 
 export interface reviewsAttributes {
     id?: number;
@@ -23,11 +26,13 @@ export class reviews extends Model<reviewsAttributes, reviewsAttributes> impleme
     })
     	declare id?: number;
 
+    @ForeignKey(() => products)
     @Column({
     	type: DataType.INTEGER 
     })
     	product_id!: number;
 
+    @ForeignKey(() => users)
     @Column({
     	type: DataType.INTEGER 
     })
@@ -44,5 +49,11 @@ export class reviews extends Model<reviewsAttributes, reviewsAttributes> impleme
     	type: DataType.STRING(255) 
     })
     	text?: string;
+
+    @BelongsTo(() => users)
+        user!: users;
+
+    @BelongsTo(() => products)
+        product!: products;
 
 }

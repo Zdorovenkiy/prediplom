@@ -12,7 +12,7 @@ export default function CommentsCard({review}: Props) {
         <Box key={review.id} sx={{ p: 2, border: `1px ${ColorsEnum.SECONDARY_BG_DARK} solid`, borderRadius: '12px' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
             <Box>
-                <Typography fontWeight="medium">{review.user_id}</Typography>
+                <Typography fontWeight="medium">{`${review.user?.surname} ${review.user?.name}`}</Typography>
             </Box>
             </Box>
             

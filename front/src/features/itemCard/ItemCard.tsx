@@ -5,6 +5,11 @@ import { ColorsEnum } from '@/constants/colors/ColorsEnum';
 import { useNavigation } from '@/hooks/UseNavigation';
 import { RoutePath } from '@/routers/config/routeConfig';
 import type { IProduct } from '@/globalState/model/product/types/productType';
+import { orderAction } from '@/globalState/model/order/slice/orderSlice';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import type { StateSchema } from '@/globalState/types/stateSchema';
+import { OrderMaker } from '@/shared/orderMaker';
 
 type Props = {
     product: IProduct
@@ -12,6 +17,9 @@ type Props = {
 
 export default function ItemCard({product}: Props) {
     const navigate = useNavigation();
+    const dispatch = useAppDispatch();
+
+    const user = useAppSelector((state: StateSchema) => state.user);
 
     if (!product) {
       return <CircularProgress />
@@ -45,7 +53,13 @@ export default function ItemCard({product}: Props) {
                         sx={{bgcolor: ColorsEnum.SECONDARY_BG_DARK, color: ColorsEnum.SECONDARY_TEXT}}
                         onClick={() => navigate(`${RoutePath.itemPage.replace(':id', String(product.id))}`)}
                         >Посмотреть</Button>
-                    <IconButton aria-label="basketIn">
+                    <IconButton 
+                        aria-label="basketIn"
+                        onClick={() => {
+                            dispatch(orderAction.setProducts(OrderMaker(product)))
+                            dispatch(orderAction.setTotal(product.price!))
+                        }}
+                        >
                         <AddShoppingCartIcon sx={{color: ColorsEnum.MAIN_TEXT, fontSize: "48px"}} />
                     </IconButton>
                 </CardActions>

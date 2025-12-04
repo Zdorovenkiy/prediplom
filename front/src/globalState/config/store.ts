@@ -12,6 +12,8 @@ import { apiFeedback } from '../model/feedback/api/feedbackApi';
 import { productReducer } from '../model/product/slice/userSlice';
 import { apiProduct } from '../model/product/api/productApi';
 import { apiReview } from '../model/review/api/reviewApi';
+import { orderReducer } from '../model/order/slice/orderSlice';
+import { apiOrder } from '../model/order/api/userApi';
 // import { matchApi } from '@/entities/match/model/api/match.api';
 // import { listenerReducer } from '@/entities/listeners';
 // import { timerReducer } from '@/entities/timer';
@@ -19,7 +21,8 @@ import { apiReview } from '../model/review/api/reviewApi';
 export function createReduxStore(initialState?: StateSchema) {
   const rootReducers: ReducersMapObject<StateSchema> = {
     user: userReducer,
-    product: productReducer
+    product: productReducer,
+    order: orderReducer
     // auth: authReducer,
     // listeners: listenerReducer,
     // timer: timerReducer,
@@ -31,6 +34,7 @@ export function createReduxStore(initialState?: StateSchema) {
     [apiFeedback.reducerPath]: apiFeedback.reducer,
     [apiProduct.reducerPath]: apiProduct.reducer,
     [apiReview.reducerPath]: apiReview.reducer,
+    [apiOrder.reducerPath]: apiOrder.reducer,
   };
 
   const combinedReducers = combineReducers({
@@ -47,7 +51,8 @@ export function createReduxStore(initialState?: StateSchema) {
         apiNewsImages.middleware,
         apiFeedback.middleware,
         apiProduct.middleware,
-        apiReview.middleware
+        apiReview.middleware,
+        apiOrder.middleware
     ),
   });
 

@@ -1,6 +1,8 @@
 import {
-	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
+	Model, Table, Column, DataType, Index, Sequelize, ForeignKey, 
+    BelongsTo
 } from "sequelize-typescript";
+import { reviews } from "./reviews";
 
 export interface review_responsesAttributes {
     id?: number;
@@ -23,6 +25,7 @@ export class review_responses extends Model<review_responsesAttributes, review_r
     })
     	declare id?: number;
 
+    @ForeignKey(() => reviews)    
     @Column({
     	type: DataType.INTEGER 
     })
@@ -43,5 +46,8 @@ export class review_responses extends Model<review_responsesAttributes, review_r
     	defaultValue: "0" 
     })
     	generated_by_ai?: number;
+
+    @BelongsTo(() => reviews)
+        product!: reviews;
 
 }
