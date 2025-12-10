@@ -66,6 +66,9 @@ export class users extends Model<usersAttributes, usersAttributes> implements us
     })
     	phone!: string;
 
-    @HasMany(() => orders)
+    @HasMany(() => orders, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
     orders!: orders[];
 }

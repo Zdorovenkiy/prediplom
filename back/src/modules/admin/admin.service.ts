@@ -6,6 +6,7 @@ import { UpdateProductDto } from '../products/dto/update-product.dto';
 import { UpdateOrderDto } from '../orders/dto/update-order.dto';
 import { UpdateReviewDto } from '../reviews/dto/update-review.dto';
 import { Sequelize, Op } from 'sequelize';
+import * as ExcelJS from 'exceljs';
 
 @Injectable()
 export class AdminService {
@@ -25,6 +26,48 @@ export class AdminService {
     @InjectModel(product_images)
     private productImagesModel: typeof product_images,
   ) {}
+
+  async getExport(type: 'products' | 'users' | 'orders') {
+    let response: products[] | users[] | orders[] | null = null;
+
+    if (type === 'products') {
+        response = await this.productsModel.findAll({ raw: true });
+    } else if (type === 'users') {
+        response = await this.usersModel.findAll({ raw: true });
+    } else {
+        response = await this.ordersModel.findAll({ raw: true });
+    }
+
+    const worksheetName = 'Товары';
+
+    console.log("response", response);
+
+    if (!response.length || !response) return null;
+
+    const headers = Object.keys(response[0]).map((item) => {
+        console.log("item", item);
+        return item;
+        
+    })
+
+    const workbook = new ExcelJS.Workbook();
+    workbook.creator = 'System';
+    workbook.created = new Date();
+      
+    const worksheet = workbook.addWorksheet(worksheetName);
+
+    worksheet.columns = headers.map(header => ({
+      header,
+      key: header,
+      width: header.length + 10
+    }));
+
+    response.forEach((row) => {
+        worksheet.addRow(row);
+    });
+    
+    return workbook.xlsx.writeBuffer();
+  }
 
   // Dashboard
   async getDashboardStats() {

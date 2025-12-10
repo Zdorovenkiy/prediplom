@@ -1,14 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus, Header, Res } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { UpdateOrderDto } from '../orders/dto/update-order.dto';
 import { UpdateReviewDto } from '../reviews/dto/update-review.dto';
 import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDto } from '../products/dto/update-product.dto';
 import { UpdateUserDto } from '../users/dto/update-user.dto';
-
+import type { Response } from 'express';
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
+
+  @Get('export/:type')
+  async getExport(@Param('type') type: 'products' | 'users' | 'orders', @Res() res: Response) {
+    const buffer = await this.adminService.getExport(type);
+
+    if (!buffer) throw new HttpException('Данных нет', HttpStatus.BAD_REQUEST); 
+
+    res.setHeader('Content-Type', 
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    res.setHeader(
+        'Content-Disposition',
+        `attachment; filename=${type}.xlsx`
+    );
+
+    res.send(buffer);
+}
 
   // Dashboard
   @Get('dashboard')
