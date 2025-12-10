@@ -13,17 +13,18 @@ export default function AdminConfig({}: Props) {
     const [importData] = useImportDataMutation();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    const handleExport = async (type: string) => {
+    const handleExport = async (type: 'products' | 'users' | 'orders') => {
         try {
             const blob = await exportData({ type }).unwrap();
+
             const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `export_${type}_${new Date().toISOString()}.xlsx`;
-            document.body.appendChild(a);
-            a.click();
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${type}.xlsx`;
+            link.click();
+
             window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
         } catch (error) {
             console.error('Ошибка при экспорте:', error);
             alert('Ошибка при экспорте данных');

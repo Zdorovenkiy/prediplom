@@ -122,8 +122,7 @@ export const apiAdmin = createApi({
       }),
     }),
 
-    // Конфигурация
-    exportData: builder.mutation<Blob, {type: string}>({
+    exportData: builder.mutation<any, {type: string}>({
       query: (body) => ({
         url: `admin/export/${body.type}`,
         method: 'GET',
