@@ -54,11 +54,6 @@ export default function Header({}: Props) {
                     </IconButton>
                 </Box>
                 <Box className="search" sx={{flexGrow: "1"}}>
-                    <CustomInput 
-                        id='search' 
-                        label='Искать'
-                        full={true}
-                        />
                 </Box>
                 <Box className="buttons">
                     <IconButton aria-label="menu" onClick={toggleDrawer(true)}>
