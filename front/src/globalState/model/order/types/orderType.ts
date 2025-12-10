@@ -5,5 +5,6 @@ export interface IOrder {
     user_id?: number;
     total?: number;
     is_payed?: boolean;
-    products: IOrderProduct[]
+    products: IOrderProduct[];
+    order_products?: IOrderProduct[];
 }

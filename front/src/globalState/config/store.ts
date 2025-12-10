@@ -14,6 +14,7 @@ import { apiProduct } from '../model/product/api/productApi';
 import { apiReview } from '../model/review/api/reviewApi';
 import { orderReducer } from '../model/order/slice/orderSlice';
 import { apiOrder } from '../model/order/api/userApi';
+import { apiAdmin } from '../model/admin/api/adminApi';
 // import { matchApi } from '@/entities/match/model/api/match.api';
 // import { listenerReducer } from '@/entities/listeners';
 // import { timerReducer } from '@/entities/timer';
@@ -35,6 +36,7 @@ export function createReduxStore(initialState?: StateSchema) {
     [apiProduct.reducerPath]: apiProduct.reducer,
     [apiReview.reducerPath]: apiReview.reducer,
     [apiOrder.reducerPath]: apiOrder.reducer,
+    [apiAdmin.reducerPath]: apiAdmin.reducer,
   };
 
   const combinedReducers = combineReducers({
@@ -52,7 +54,8 @@ export function createReduxStore(initialState?: StateSchema) {
         apiFeedback.middleware,
         apiProduct.middleware,
         apiReview.middleware,
-        apiOrder.middleware
+        apiOrder.middleware,
+        apiAdmin.middleware
     ),
   });
 

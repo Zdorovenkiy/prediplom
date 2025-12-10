@@ -2,12 +2,15 @@ import { Suspense, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import type { FC } from 'react';
 import type{ RouteObject } from 'react-router-dom';
-import { routeConfig } from './config/routeConfig';
+import { routeConfig, AppRoutes } from './config/routeConfig';
 import MainLayout from '@/layouts/mainLayout/MainLayout';
+import AdminLayout from '@/layouts/adminLayout/AdminLayout';
 
 
 const AppRouter: FC = () => {
   const renderWithWrapper = useCallback((route: RouteObject) => {
+    const isAdminRoute = route.path?.startsWith('/admin');
+    
     const element = (
       <Suspense
         fallback={
@@ -16,9 +19,15 @@ const AppRouter: FC = () => {
           </div>
         }
       >
-        <MainLayout>
+        {isAdminRoute ? (
+          <AdminLayout>
             {route.element}
-        </MainLayout>
+          </AdminLayout>
+        ) : (
+          <MainLayout>
+            {route.element}
+          </MainLayout>
+        )}
       </Suspense>
     );
 

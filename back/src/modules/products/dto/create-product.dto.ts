@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, MaxLength, Min, IsDecimal, Validate } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 export class CreateProductDto {
   @IsString()
@@ -11,10 +11,12 @@ export class CreateProductDto {
   @MaxLength(255, { message: 'Описание товара не должно превышать 255 символов' })
   description!: string;
 
+  @Type(() => Number)
   @IsNumber()
   @IsNotEmpty({ message: 'Цена товара не может быть пустой' })
   price!: number;
 
+  @Type(() => Number)
   @IsNumber()
   @Min(0, { message: 'Количество товара не может быть отрицательным' })
   stock!: number;

@@ -46,4 +46,39 @@ export class ReviewsService {
         }
         return await this.currentModel.findAll(option);
     }
+
+    async findAllByUser(userId: number) {
+        return await this.currentModel.findAll({
+            where: {
+                user_id: userId
+            },
+            include: [
+                {
+                    model: users,
+                    as: 'user',
+                }
+            ],
+            order: [['id', 'DESC']],
+        });
+    }
+
+    async update(id: number, updateReviewDto: UpdateReviewDto) {
+        await this.currentModel.update(updateReviewDto, {
+            where: { id },
+        });
+        return await this.currentModel.findByPk(id, {
+            include: [
+                {
+                    model: users,
+                    as: 'user',
+                }
+            ],
+        });
+    }
+
+    async remove(id: number) {
+        return await this.currentModel.destroy({
+            where: { id },
+        });
+    }
 }

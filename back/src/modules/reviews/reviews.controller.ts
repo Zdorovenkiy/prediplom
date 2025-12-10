@@ -21,4 +21,19 @@ export class ReviewsController {
   async findAllByProduct(@Query('id') id: number, @Query('limit') limit?: number) {
     return await this.reviewsService.findAllByProduct(id, limit);
   }
+
+  @Get('user/:userId')
+  async findAllByUser(@Param('userId') userId: number) {
+    return await this.reviewsService.findAllByUser(userId);
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateReviewDto: UpdateReviewDto) {
+    return await this.reviewsService.update(+id, updateReviewDto);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return await this.reviewsService.remove(+id);
+  }
 }

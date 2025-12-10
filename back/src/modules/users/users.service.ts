@@ -31,16 +31,30 @@ export class UsersService implements OnModuleInit {
         return 'This action adds a new user';
     }
 
-    findAll() {
-        return `This action returns all users`;
+    async findAll() {
+        return await this.currentModel.findAll({
+            attributes: { exclude: ['password'] },
+            order: [['id', 'DESC']],
+        });
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} user`;
+    async findOne(id: number) {
+        const user = await this.currentModel.findOne({
+            where: {
+                id: id,
+            }
+        })
+
+        return user
     }
 
-    update(id: number, updateUserDto: UpdateUserDto) {
-        return `This action updates a #${id} user`;
+    async update(id: number, updateUserDto: UpdateUserDto) {
+        await this.currentModel.update(updateUserDto, {
+            where: { id },
+        });
+        return await this.currentModel.findByPk(id, {
+            attributes: { exclude: ['password'] },
+        });
     }
 
     remove(id: number) {

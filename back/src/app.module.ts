@@ -9,6 +9,7 @@ import { ProductsModule } from './modules/products/products.module';
 import { ReviewResponsesModule } from './modules/review_responses/review_responses.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
 import { RolesModule } from './modules/roles/roles.module';
+import { AdminModule } from './modules/admin/admin.module';
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -32,6 +33,7 @@ import * as Tables from './models/index';
     ReviewResponsesModule, 
     ReviewsModule, 
     RolesModule,
+    AdminModule,
     SequelizeModule.forRoot({
       dialect: 'mysql',
       host: process.env.DB_HOST,

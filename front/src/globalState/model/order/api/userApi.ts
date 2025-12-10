@@ -8,12 +8,19 @@ export const apiOrder = createApi({
   baseQuery: baseQuery,
   endpoints: (builder) => ({
 
-    // getOrder: builder.query<any, {id: string}>({
-    //   query: () => ({
-    //     url: `users/auth`,
-    //     method: 'GET',
-    //   }),
-    // }),
+    getOrders: builder.query<IOrder[], {userId: number}>({
+      query: (body) => ({
+        url: `orders/user/${body.userId}`,
+        method: 'GET',
+      }),
+    }),
+
+    getOrder: builder.query<IOrder, {id: number}>({
+      query: (body) => ({
+        url: `orders/${body.id}`,
+        method: 'GET',
+      }),
+    }),
 
     createOrder: builder.mutation<string, Partial<IOrder>>({
       query: (body) => ({
@@ -26,4 +33,4 @@ export const apiOrder = createApi({
   }),
 });
 
-export const { useCreateOrderMutation } = apiOrder;
+export const { useCreateOrderMutation, useGetOrdersQuery, useGetOrderQuery } = apiOrder;

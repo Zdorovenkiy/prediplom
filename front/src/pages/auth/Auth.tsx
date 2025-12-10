@@ -43,7 +43,7 @@ export default function Auth({}: Props) {
         
         const response = await auth(authData);
         
-        if (response.data?.role_id) {
+        if (response.data?.role_id !== undefined && response.data?.role_id !== null) {
             localStorage.setItem('token', String(response.data.role_id));
             localStorage.setItem('id', String(response.data.id));
         }

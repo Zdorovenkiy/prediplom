@@ -18,36 +18,55 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // setIsAuth: (state, action: PayloadAction<boolean>) => {
-    //   state.isAuth = action.payload;
-    // },
+    clearUser: () => {
+        const cleared = {
+            id: undefined,
+            email: undefined,
+            surname: undefined,
+            name: undefined,
+            password: undefined,
+            patronymic: undefined,
+            phone: undefined,
+            role_id: undefined,
+        };
+
+        return { ...cleared };
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
         apiUser.endpoints.getUser.matchFulfilled,
         (state, { payload }) => {
-            state = payload;
+            console.log("payload", payload);
+            return { ...state, ...payload };
         },
     );
 
     builder.addMatcher(
         apiUser.endpoints.auth.matchFulfilled,
         (state, { payload }) => {
-            state = payload;
+            return { ...state, ...payload };
         },
     );
 
     builder.addMatcher(
         apiUser.endpoints.register.matchFulfilled,
         (state, { payload }) => {
-            state = payload;
+            return { ...state, ...payload };
         },
     );
 
     builder.addMatcher(
         apiUser.endpoints.recover.matchFulfilled,
         (state, { payload }) => {
-            state = payload;
+            return { ...state, ...payload };
+        },
+    );
+
+    builder.addMatcher(
+        apiUser.endpoints.updateUser.matchFulfilled,
+        (state, { payload }) => {
+            return { ...state, ...payload };
         },
     );
   },

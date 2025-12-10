@@ -41,6 +41,8 @@ type Props = {}
 export default function Basket({}: Props) {
     const navigate = useNavigation();
 
+    const user = useAppSelector((state: StateSchema) => state.user);
+
     const basket = useAppSelector((state: StateSchema) => state.order)
 
     const [cartItems, setCartItems] = useState(basket.products);
@@ -231,6 +233,7 @@ export default function Basket({}: Props) {
                             fullWidth
                             size="large"
                             onClick={handleCheckout}
+                            disabled={!user.id}
                             sx={{md: 2, bgcolor: ColorsEnum.SECONDARY_BG_DARK}}
                         >
                             Перейти к оформлению

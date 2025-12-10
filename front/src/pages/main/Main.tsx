@@ -30,7 +30,7 @@ export default function Main({}: Props) {
                     <Typography variant='h4'>
                         Акции и скидки
                     </Typography>
-                    <Box sx={{display: 'flex', justifyContent: "space-between"}}>
+                    <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
                         { products?.map((product) => (
                             <ItemCard key={product.id} product={product} />
                         ))}

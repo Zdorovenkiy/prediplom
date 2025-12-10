@@ -9,10 +9,10 @@ type Props = {}
 export default function Footer({}: Props) {
     const navigate = useNavigation();
     return (
-        <Box className="footer" sx={{...StyleList.default, bgcolor: ColorsEnum.SECONDARY_BG_LIGHT, maxHeight: '300px'}}>
+        <Box className="footer" sx={{...StyleList.default, bgcolor: ColorsEnum.SECONDARY_BG_DARK, maxHeight: '300px'}}>
             <Box className="container" sx={{...StyleList.container, paddingBlock: "18px", alignItems: 'flex-start'}}>
-                <Box className="about" sx={{display: 'flex', flexDirection: 'column', color: ColorsEnum.FOOTER_SECONDARY_TEXT, alignItems: 'flex-start'}}>
-                    <Typography variant='h6' sx={{color: ColorsEnum.FOOTER_MAIN_TEXT}}>
+                <Box className="about" sx={{display: 'flex', flexDirection: 'column', color: ColorsEnum.SECONDARY_TEXT, alignItems: 'flex-start'}}>
+                    <Typography variant='h6' sx={{color: ColorsEnum.SECONDARY_TEXT}}>
                         Информация
                     </Typography>
                     <Typography variant='body2' sx={{cursor: 'pointer'}} onClick={() => navigate(RoutePath.about)}>
@@ -26,7 +26,7 @@ export default function Footer({}: Props) {
                     </Typography> 
                 </Box>
                 <Box className="name" sx={{alignSelf: "flex-end"}}>
-                    <Typography variant='h6' sx={{color: ColorsEnum.FOOTER_MAIN_TEXT}}>
+                    <Typography variant='h6' sx={{color: ColorsEnum.SECONDARY_TEXT}}>
                         Мыцыков Никита Александрович
                     </Typography> 
                 </Box>

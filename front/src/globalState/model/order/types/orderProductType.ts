@@ -1,3 +1,5 @@
+import type { IProduct } from "../../product/types/productType";
+
 export interface IOrderProduct {
     id?: number;
     order_id?: number;
@@ -5,4 +7,5 @@ export interface IOrderProduct {
     name?: string,
     quantity?: number;
     price?: number;
+    product?: IProduct;
 }

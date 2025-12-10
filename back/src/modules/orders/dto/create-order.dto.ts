@@ -3,6 +3,12 @@ import { IsArray, IsBoolean, IsDecimal, IsInt, IsNotEmpty, IsOptional, Min, Vali
 import { CreateOrderProductDto } from 'src/modules/order_products/dto/create-order_product.dto';
 
 export class CreateOrderDto {
+  @IsOptional()
+  @IsInt()
+  @IsNotEmpty({ message: 'ID заказа обязателен' })
+  @Type(() => Number)
+  id?: number;
+
   @IsInt()
   @IsNotEmpty({ message: 'ID пользователя обязателен' })
   @Type(() => Number)

@@ -8,9 +8,9 @@ export const apiUser = createApi({
   baseQuery: baseQuery,
   endpoints: (builder) => ({
 
-    getUser: builder.query<any, {id: string}>({
-      query: () => ({
-        url: `users/auth`,
+    getUser: builder.query<IUser, {id: string}>({
+      query: (body) => ({
+        url: `users/${body.id}`,
         method: 'GET',
       }),
     }),
@@ -39,7 +39,15 @@ export const apiUser = createApi({
       }),
     }),
 
+    updateUser: builder.mutation<IUser, Partial<IUser>>({
+      query: (body) => ({
+        url: `users/${body.id}`,
+        method: 'PATCH',
+        body
+      }),
+    }),
+
   }),
 });
 
-export const { useGetUserQuery, useAuthMutation, useRecoverMutation, useRegisterMutation } = apiUser;
+export const { useGetUserQuery, useLazyGetUserQuery, useAuthMutation, useRecoverMutation, useRegisterMutation, useUpdateUserMutation } = apiUser;

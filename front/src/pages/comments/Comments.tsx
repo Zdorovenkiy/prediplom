@@ -5,6 +5,8 @@ import CustomBreadcrumbs from '@/features/customBreadcrumbs/CustomBreadcrumbs'
 import CustomInput from '@/features/customInput/CustomInput'
 import { useGetReviewQuery, useSendReviewMutation } from '@/globalState/model/review/api/reviewApi'
 import type { IReview } from '@/globalState/model/review/types/reviewType'
+import type { StateSchema } from '@/globalState/types/stateSchema'
+import { useAppSelector } from '@/hooks/useAppSelector'
 import { AppRoutes } from '@/routers/config/routeConfig'
 import { Box, Button, CircularProgress } from '@mui/material'
 import React, { useEffect, useState } from 'react'
@@ -13,6 +15,7 @@ import { useLocation, useParams } from 'react-router-dom'
 type Props = {}
 
 export default function Comments({}: Props) {
+    const user = useAppSelector((state: StateSchema) => state.user);
     const { id } = useParams<{ id: string }>()
     const { data: reviews, isLoading, refetch } = useGetReviewQuery({id: +id!});
     const location = useLocation();
@@ -28,7 +31,7 @@ export default function Comments({}: Props) {
 
     const [formData, setFormData] = useState<IReview>({
         product_id: Number(id),
-        user_id: 1,
+        user_id: user.id,
         rating: 0,
         text: '',
     });

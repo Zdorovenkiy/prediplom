@@ -1,12 +1,28 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateProductDto } from './create-product.dto';
-import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, MaxLength, Min } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, MaxLength, Min, IsArray, ValidateNested } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
+import { CreateProductImageDto } from 'src/modules/product_images/dto/create-product_image.dto';
 
 // Вариант 1: Наследование от CreateProductDto с PartialType
-export class UpdateProductDto extends PartialType(CreateProductDto) {}
+export class UpdateProductDto extends PartialType(CreateProductDto) {
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  price?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  stock?: number;
+}
 
 export class UpdateProductDtoManual {
+  @IsOptional()
+  @IsNumber()
+  id?: number;
+
   @IsOptional()
   @IsString()
   title?: string;
@@ -18,7 +34,7 @@ export class UpdateProductDtoManual {
 
   @IsOptional()
   @IsNumber()
-  price?: number;
+  price?: number | string;
 
   @IsOptional()
   @Type(() => Number)
@@ -38,4 +54,9 @@ export class UpdateProductDtoManual {
     return Boolean(value);
   })
   is_discount?: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  images?: CreateProductImageDto[];
 }
