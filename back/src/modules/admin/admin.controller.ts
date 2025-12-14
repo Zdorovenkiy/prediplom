@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus, Header, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus, Header, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { UpdateOrderDto } from '../orders/dto/update-order.dto';
 import { UpdateReviewDto } from '../reviews/dto/update-review.dto';
@@ -6,6 +6,7 @@ import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDto } from '../products/dto/update-product.dto';
 import { UpdateUserDto } from '../users/dto/update-user.dto';
 import type { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
@@ -26,6 +27,20 @@ export class AdminController {
 
     res.send(buffer);
 }
+
+  @Post('import/:type')
+  @UseInterceptors(FileInterceptor('file'))
+  async getImport(
+    @Param('type') type: 'products' | 'orders', 
+    @UploadedFile() file: Express.Multer.File
+  ) {
+    console.log("type", type);
+    console.log(file);
+    
+    await this.adminService.getImport(type, file);
+
+    return {message: 'Success'}
+  }
 
   // Dashboard
   @Get('dashboard')

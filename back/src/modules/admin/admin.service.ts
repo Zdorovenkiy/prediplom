@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { orders, order_products, products, reviews, users, review_responses, product_images } from 'src/models';
 import { CreateProductDto } from '../products/dto/create-product.dto';
@@ -7,7 +7,7 @@ import { UpdateOrderDto } from '../orders/dto/update-order.dto';
 import { UpdateReviewDto } from '../reviews/dto/update-review.dto';
 import { Sequelize, Op } from 'sequelize';
 import * as ExcelJS from 'exceljs';
-
+import * as XLSX from 'xlsx';
 @Injectable()
 export class AdminService {
   constructor(
@@ -68,6 +68,51 @@ export class AdminService {
     
     return workbook.xlsx.writeBuffer();
   }
+
+  async getImport(type: 'products' | 'orders', file: Express.Multer.File) {
+    if (!file.buffer) {
+      throw new BadRequestException('Файл пустой');
+    }
+
+    const records = this.parseXlsx(file.buffer);
+
+    if (type === 'products') {
+        console.log(records);
+        
+      await this.productsModel.bulkCreate(records, {
+        ignoreDuplicates: true,
+        fields: [
+            'title',
+            'description',
+            'price',
+            'stock',
+            'description_short',
+            'is_discount'
+        ]
+      });
+    }
+
+    if (type === 'orders') {
+        console.log(records);
+      await this.ordersModel.bulkCreate(records, {
+        ignoreDuplicates: true,
+        fields: [
+            'user_id',
+            'total',
+            'is_payed'
+        ]
+      });
+    }
+  }
+
+parseXlsx(buffer: Buffer): any[] {
+  const workbook = XLSX.read(buffer, { type: 'buffer' });
+
+  const sheetName = workbook.SheetNames[0];
+  const sheet = workbook.Sheets[sheetName];
+
+  return XLSX.utils.sheet_to_json(sheet);
+}
 
   // Dashboard
   async getDashboardStats() {
