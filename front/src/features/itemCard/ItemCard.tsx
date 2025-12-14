@@ -10,12 +10,13 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import type { StateSchema } from '@/globalState/types/stateSchema';
 import { OrderMaker } from '@/shared/orderMaker';
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
 type Props = {
-    product: IProduct
+    product: IProduct,
+    wishlist?: boolean
 }
 
-export default function ItemCard({product}: Props) {
+export default function ItemCard({product, wishlist}: Props) {
     const navigate = useNavigation();
     const dispatch = useAppDispatch();
 
@@ -62,8 +63,21 @@ export default function ItemCard({product}: Props) {
                         >
                         <AddShoppingCartIcon sx={{color: ColorsEnum.MAIN_TEXT, fontSize: "48px"}} />
                     </IconButton>
+                    { !wishlist && (
+                        <IconButton 
+                            aria-label="loved"
+                            onClick={() => {
+                                const storedJson = localStorage.getItem('wishlist');
+                                const stored = storedJson ? JSON.parse(storedJson) : [];
+                                localStorage.setItem('wishlist', JSON.stringify([...stored, product.id]));
+                            }}
+                            >
+                            <FavoriteIcon sx={{color: ColorsEnum.MAIN_TEXT, fontSize: "48px"}} />
+                        </IconButton>
+                    )}
                 </CardActions>
             </CardActionArea>
         </Card>
     )
 }
+// localStorage.getItem('wishlist');

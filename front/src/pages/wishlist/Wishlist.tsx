@@ -47,6 +47,7 @@ export default function Wishlist({}: Props) {
         });
     };
 
+
     const wishlistProducts = allProducts?.filter(product => 
         product.id && wishlist.includes(product.id)
     ) || [];
@@ -106,9 +107,9 @@ export default function Wishlist({}: Props) {
                 ) : (
                     <Grid container spacing={2} sx={{ width: '100%' }}>
                         {wishlistProducts.map((product: IProduct) => (
-                            <Grid item xs={12} sm={6} md={4} key={product.id}>
+                            <Grid sx={{xs: 12, sm: 6, md: 4}} key={product.id}>
                                 <Box sx={{ position: 'relative' }}>
-                                    <ItemCard product={product} />
+                                    <ItemCard product={product} wishlist={true} />
                                     <IconButton
                                         sx={{
                                             position: 'absolute',
