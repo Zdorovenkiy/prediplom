@@ -28,7 +28,7 @@ const menuItems = [
 export default function AdminLayout({ children }: PropsWithChildren) {
     const navigate = useNavigation();
     const user = useAppSelector((state: StateSchema) => state.user);
-    const isAdmin = user?.role_id === RoleEnum.ADMIN || localStorage.getItem('token') === '0';
+    const isAdmin = user?.role_id !== RoleEnum.USER || localStorage.getItem('token') !== String(RoleEnum.USER);
 
     useEffect(() => {
         if (!isAdmin) {
@@ -84,8 +84,11 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                     </Typography>
                 </Toolbar>
                 <List>
-                    {menuItems.map((item) => (
-                        <ListItem key={item.text} disablePadding>
+                    {menuItems.map((item) => {
+                        console.log("item", item);
+                        if (item.text === 'Пользователи' && user?.role_id !== RoleEnum.ADMIN) return;
+                        
+                        return <ListItem key={item.text} disablePadding>
                             <ListItemButton
                                 onClick={() => navigate(RoutePath[item.route])}
                                 sx={{
@@ -102,7 +105,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                                 <ListItemText primary={item.text} />
                             </ListItemButton>
                         </ListItem>
-                    ))}
+                    })}
                 </List>
             </Drawer>
             <Box

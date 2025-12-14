@@ -34,9 +34,8 @@ export default function Header({}: Props) {
         
         // ADMIN = 0, поэтому проверяем явно на undefined/null
         setIsAdmin(
-            roleId === RoleEnum.ADMIN || 
-            tokenRole === '0' || 
-            tokenRole === String(RoleEnum.ADMIN)
+            roleId !== RoleEnum.USER ||
+            tokenRole !== String(RoleEnum.USER)
         );
     }, [user])
     
