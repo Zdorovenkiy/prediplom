@@ -1,0 +1,11 @@
+{
+  "model_name": "google/flan-t5-small",
+  "batch_size": 8,
+  "epochs": 3,
+  "learning_rate": 0.0003,
+  "max_source_length": 256,
+  "max_target_length": 128,
+  "use_8bit": true,
+  "total_training_time_seconds": 4978.692947387695,
+  "training_completed_at": "2025-12-05T15:20:10.448885"
+}
