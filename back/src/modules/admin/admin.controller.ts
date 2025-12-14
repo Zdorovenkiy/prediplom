@@ -42,13 +42,11 @@ export class AdminController {
     return {message: 'Success'}
   }
 
-  // Dashboard
   @Get('dashboard')
   async getDashboardStats() {
     return await this.adminService.getDashboardStats();
   }
 
-  // Products
   @Post('products')
   async createProduct(@Body() createProductDto: CreateProductDto) {
     return await this.adminService.createProduct(createProductDto);
@@ -71,7 +69,6 @@ export class AdminController {
     }
   }
 
-  // Orders
   @Get('orders')
   async getAllOrders() {
     return await this.adminService.getAllOrders();
@@ -92,7 +89,6 @@ export class AdminController {
     return await this.adminService.updateOrder(+id, updateOrderDto);
   }
 
-  // Reviews
   @Get('reviews')
   async getAllReviews() {
     return await this.adminService.getAllReviews();
@@ -126,7 +122,6 @@ export class AdminController {
     return await this.adminService.sendReviewResponse(+reviewId, body.text);
   }
 
-  // Users
   @Get('users')
   async getAllUsers() {
     return await this.adminService.getAllUsers();

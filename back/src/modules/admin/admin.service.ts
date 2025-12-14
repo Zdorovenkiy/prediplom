@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { orders, order_products, products, reviews, users, review_responses, product_images } from 'src/models';
 import { CreateProductDto } from '../products/dto/create-product.dto';
@@ -8,6 +8,9 @@ import { UpdateReviewDto } from '../reviews/dto/update-review.dto';
 import { Sequelize, Op } from 'sequelize';
 import * as ExcelJS from 'exceljs';
 import * as XLSX from 'xlsx';
+import axios from 'axios';
+import { translate } from '@vitalets/google-translate-api';
+
 @Injectable()
 export class AdminService {
   constructor(
@@ -345,27 +348,33 @@ parseXlsx(buffer: Buffer): any[] {
     });
   }
 
-  async generateAIResponse(reviewText: string): Promise<{ response: string }> {
-    // Заглушка для генерации ответа ИИ
-    // В реальном проекте здесь будет интеграция с AI API (например, OpenAI)
-    const responses = [
-      'Спасибо за ваш отзыв! Мы рады, что вам понравился наш товар.',
-      'Благодарим за обратную связь. Ваше мнение очень важно для нас.',
-      'Спасибо за отзыв! Мы постоянно работаем над улучшением качества наших товаров.',
-      'Благодарим за вашу оценку. Мы ценим каждого клиента!',
-    ];
-    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+async generateAIResponse(reviewText: string): Promise<{ response: string }> {    
+  try {
     
-    return {
-      response: randomResponse + ' ' + reviewText.substring(0, 50) + '...',
-    };
+    const translatedInput = await translate(reviewText, { to: 'en' });
+
+    const { data } = await axios.post('http://localhost:8000/generate', {
+      review_text: translatedInput.text,
+    });
+
+    
+    const translatedOutput = await translate(data.response, { to: 'ru' });
+
+    return { response: translatedOutput.text };
+  } catch (error) {
+    console.error(error);
+    throw new HttpException(
+      'Ошибка генерации ответа ИИ',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
   }
+}
 
   async sendReviewResponse(reviewId: number, text: string) {
     return await this.reviewResponsesModel.create({
       review_id: reviewId,
       text: text,
-      user_id: 1, // Администратор
+      user_id: 1,
     });
   }
 
