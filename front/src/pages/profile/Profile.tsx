@@ -58,7 +58,7 @@ export default function Profile({}: Props) {
         : 'Гость';
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('role');
         localStorage.removeItem('id');
         dispatch(userAction.clearUser());
         navigate(RoutePath.auth);

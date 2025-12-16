@@ -16,6 +16,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { FeedbackModule } from './modules/feedback/feedback.module';
 import { NewsImagesModule } from './modules/news_images/news_images.module';
 import * as Tables from './models/index';
+import { SeedService } from './seeders/seed.service';
 
 
 @Module({
@@ -50,6 +51,6 @@ import * as Tables from './models/index';
     NewsImagesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeedService],
 })
 export class AppModule {}

@@ -7,7 +7,7 @@ import { products } from "./products";
 export interface product_imagesAttributes {
     id?: number;
     product_id: number;
-    image: string;
+    image?: string;
 }
 
 @Table({

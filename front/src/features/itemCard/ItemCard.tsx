@@ -11,6 +11,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import type { StateSchema } from '@/globalState/types/stateSchema';
 import { OrderMaker } from '@/shared/orderMaker';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useEffect } from 'react';
 type Props = {
     product: IProduct,
     wishlist?: boolean
@@ -26,12 +27,19 @@ export default function ItemCard({product, wishlist}: Props) {
       return <CircularProgress />
     }
 
+    useEffect(() => {
+        console.log("product", product);
+        console.log("import.meta.env.VITE_PLACEHOLDER", import.meta.env.VITE_PLACEHOLDER);
+        
+        
+    }, [product])
+
     return (
         <Card sx={{ width: '100%', maxWidth: 345, bgcolor: ColorsEnum.MAIN_BG }}>
             <CardActionArea disableRipple sx={{display: 'flex', flexDirection: "column", justifyContent: 'space-between', height: '100%', textAlign: 'start', padding: '12px'}}>
                 <CardMedia
                     sx={{ height: 140, width: '100%' }}
-                    image={product?.images?.length ? product.images[0].image : import.meta.env.VITE_PLACEHOLDER}
+                    image={(product?.images?.length && product.images[0].image) ? product.images[0].image : import.meta.env.VITE_PLACEHOLDER}
                     title="title"
                 />
                 <CardContent sx={{width: '100%'}}>

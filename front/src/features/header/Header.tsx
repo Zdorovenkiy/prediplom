@@ -26,18 +26,25 @@ export default function Header({}: Props) {
     const [isAdmin, setIsAdmin] = useState(false);
     
     useEffect(() => {
-        console.log("user", user);
+        console.log("useradsfasdf", user);
         
-        // Проверяем роль из Redux store или из localStorage
         const roleId = user?.role_id;
-        const tokenRole = localStorage.getItem('token');
-        
-        // ADMIN = 0, поэтому проверяем явно на undefined/null
-        setIsAdmin(
-            roleId !== RoleEnum.USER ||
-            tokenRole !== String(RoleEnum.USER)
-        );
+        const tokenRole = localStorage.getItem('role');
+        console.log("roleId", roleId);
+        console.log("tokenRole", tokenRole);
+        if (roleId) {
+            setIsAdmin(roleId !== RoleEnum.USER);
+        } else if (tokenRole) {
+            setIsAdmin(tokenRole !== String(RoleEnum.USER));
+        } else {
+            setIsAdmin(false)
+        }
     }, [user])
+
+    useEffect(() => {
+        console.log("isAdmin", isAdmin);
+
+    }, [isAdmin])
     
 
     const toggleDrawer = (newOpen: boolean) => () => {

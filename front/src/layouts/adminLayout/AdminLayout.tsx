@@ -32,7 +32,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
     const navigate = useNavigation();
     const [fetchUser, { data: user, isLoading, isError }] = useLazyGetUserQuery();
     const dispatch = useAppDispatch();
-    const [isAdmin, setIsAdmin] = useState(user?.role_id !== RoleEnum.USER || localStorage.getItem('token') !== String(RoleEnum.USER))
+    const [isAdmin, setIsAdmin] = useState(user?.role_id !== RoleEnum.USER || localStorage.getItem('role') !== String(RoleEnum.USER))
     
     
     async function syncData() {

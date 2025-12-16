@@ -28,15 +28,11 @@ export default function Swiper({data}: Props) {
         
     }
 
-    useEffect(() => {
-        console.log("sliderRef", sliderRef);
-        
-    }, [sliderRef])
     return (
         <Box className="swiper" sx={{width: "100%", position: 'relative'}}>
             
             <Box ref={sliderRef} className="keen-slider">
-                { data?.length ? data.map((item => (
+                { (data?.length && data[0].image)  ? data.map((item => (
                     <div key={item.id} className="keen-slider__slide" style={{height: "600px"}}>
                         <img style={{height: "600px"}} src={item.image} alt={item.name || "alt"} />
                     </div>

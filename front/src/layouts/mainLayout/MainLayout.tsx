@@ -26,7 +26,7 @@ export default function MainLayout({children}: PropsWithChildren) {
 
     useEffect(() => {
         console.log("localStorage.getItem('id')", localStorage.getItem('id'));
-        console.log("localStorage.getItem('id')", localStorage.getItem('token'));
+        console.log("localStorage.getItem('id')", localStorage.getItem('role'));
         syncData();
     }, [])
 
