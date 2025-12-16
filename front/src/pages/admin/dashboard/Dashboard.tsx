@@ -9,7 +9,9 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 type Props = {}
 
 export default function Dashboard({}: Props) {
-    const { data: stats, isLoading } = useGetDashboardStatsQuery();
+    const { data: stats, isLoading } = useGetDashboardStatsQuery(undefined, {
+  refetchOnMountOrArgChange: true,
+});
 
     if (isLoading) {
         return (
@@ -54,7 +56,7 @@ export default function Dashboard({}: Props) {
 
             <Grid container spacing={3} sx={{ mb: 3 }}>
                 {statCards.map((card, index) => (
-                    <Grid item xs={12} sm={6} md={3} key={index}>
+                    <Grid sx={{xs: 12, sm:6, md: 3}} key={index}>
                         <Paper
                             elevation={0}
                             sx={{
@@ -82,7 +84,7 @@ export default function Dashboard({}: Props) {
             </Grid>
 
             <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
+                <Grid sx={{xs: 12, md:6}}>
                     <Paper
                         elevation={0}
                         sx={{
@@ -99,7 +101,7 @@ export default function Dashboard({}: Props) {
                         </Typography>
                     </Paper>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid  sx={{xs: 12, md:6}} >
                     <Paper
                         elevation={0}
                         sx={{

@@ -15,7 +15,9 @@ type Props = {}
 
 export default function Wishlist({}: Props) {
     const navigate = useNavigation();
-    const { data: allProducts, isLoading } = useGetProductsQuery();
+    const { data: allProducts, isLoading } = useGetProductsQuery(undefined, {
+  refetchOnMountOrArgChange: true,
+});
     const [wishlist, setWishlist] = useState<number[]>([]);
 
     useEffect(() => {

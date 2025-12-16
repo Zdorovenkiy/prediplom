@@ -13,8 +13,12 @@ import { useGetDiscountsQuery } from '@/globalState/model/product/api/productApi
 type Props = {}
 
 export default function Main({}: Props) {
-    const { data } = useGetNewsImagesQuery();
-    const { data: products, isLoading, isError } = useGetDiscountsQuery();
+    const { data } = useGetNewsImagesQuery(undefined, {
+  refetchOnMountOrArgChange: true,
+});
+    const { data: products, isLoading, isError } = useGetDiscountsQuery(undefined, {
+  refetchOnMountOrArgChange: true,
+});
 
     if (isLoading) {
       return <CircularProgress />

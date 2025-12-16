@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { reviews, users } from 'src/models';
+import { review_responses, reviews, users } from 'src/models';
 
 @Injectable()
 export class ReviewsService {
@@ -31,10 +31,16 @@ export class ReviewsService {
             where: {
                 product_id: id
             },
-            include: [
-                {
+            include: [{
                     model: users,
                     as: 'user',
+                }, {
+                    model: review_responses,
+                    as: 'responses',
+                    include: [{
+                        model: users,
+                        as: 'user',
+                    }]
                 }
             ]
         }

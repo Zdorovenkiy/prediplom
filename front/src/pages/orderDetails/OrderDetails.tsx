@@ -15,7 +15,9 @@ type Props = {}
 export default function OrderDetails({}: Props) {
     const navigate = useNavigation();
     const { id } = useParams<{ id: string }>();
-    const { data: order, isLoading } = useGetOrderQuery({ id: Number(id) });
+    const { data: order, isLoading } = useGetOrderQuery({ id: Number(id) }, {
+  refetchOnMountOrArgChange: true,
+});
 
     if (isLoading) {
         return (

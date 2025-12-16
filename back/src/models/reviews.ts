@@ -1,9 +1,11 @@
 import {
-	Model, Table, Column, DataType, Index, Sequelize, ForeignKey, BelongsTo
+	Model, Table, Column, DataType, Index, Sequelize, ForeignKey, BelongsTo,
+    HasMany
 } from "sequelize-typescript";
 import { order_products } from "./order_products";
 import { users } from "./users";
 import { products } from "./products";
+import { review_responses } from "./review_responses";
 
 export interface reviewsAttributes {
     id?: number;
@@ -55,5 +57,11 @@ export class reviews extends Model<reviewsAttributes, reviewsAttributes> impleme
 
     @BelongsTo(() => products)
         product!: products;
+
+    @HasMany(() => review_responses, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    responses!: review_responses[];
 
 }

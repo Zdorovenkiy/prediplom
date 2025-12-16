@@ -17,7 +17,9 @@ type Props = {}
 export default function Comments({}: Props) {
     const user = useAppSelector((state: StateSchema) => state.user);
     const { id } = useParams<{ id: string }>()
-    const { data: reviews, isLoading, refetch } = useGetReviewQuery({id: +id!});
+    const { data: reviews, isLoading, refetch } = useGetReviewQuery({id: +id!}, {
+  refetchOnMountOrArgChange: true,
+});
     const location = useLocation();
     const parentId = location.state as string;
     console.log("parentId", parentId);
@@ -76,7 +78,13 @@ export default function Comments({}: Props) {
         if (isError) {
             console.log("message", message);
         }
-    }, [isError]);    
+    }, [isError]);   
+    
+    useEffect(() => {
+        if (reviews) {
+            console.log("reviews", reviews);
+        }
+    }, [reviews]); 
 
     if (isLoading) {
       return <CircularProgress />
@@ -130,7 +138,13 @@ export default function Comments({}: Props) {
                     </Box>
 
                     {reviews?.map((review) => (
-                        <CommentsCard review={review} />
+                        <>
+                            <CommentsCard review={review} />
+                            {review.responses?.length ? review.responses.map((response) => (
+                                <CommentsCard review={response} isResponse />
+                            )) : <></>
+                        }
+                        </>
                     ))}
 
                 </Box>

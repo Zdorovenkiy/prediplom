@@ -370,11 +370,11 @@ async generateAIResponse(reviewText: string): Promise<{ response: string }> {
   }
 }
 
-  async sendReviewResponse(reviewId: number, text: string) {
+  async sendReviewResponse(reviewId: number, text: string, user_id: number) {
     return await this.reviewResponsesModel.create({
       review_id: reviewId,
       text: text,
-      user_id: 1,
+      user_id: user_id,
     });
   }
 

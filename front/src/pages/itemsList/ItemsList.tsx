@@ -35,7 +35,9 @@ export default function ItemsList({}: Props) {
   const [page, setPage] = useState(1)
   const itemsPerPage = 12
 
-  const { data: products, isLoading } = useGetProductsQuery();
+  const { data: products, isLoading } = useGetProductsQuery(undefined, {
+  refetchOnMountOrArgChange: true,
+});
 
 
   const totalPages = products ? Math.ceil(products.length / itemsPerPage) : 0

@@ -11,7 +11,9 @@ type Props = {}
 
 export default function AdminOrders({}: Props) {
     const navigate = useNavigation();
-    const { data: orders, isLoading, refetch } = useGetAllOrdersQuery();
+    const { data: orders, isLoading, refetch } = useGetAllOrdersQuery(undefined, {
+  refetchOnMountOrArgChange: true,
+});
     const [updateOrder] = useUpdateOrderMutation();
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);

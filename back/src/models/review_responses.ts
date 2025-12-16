@@ -3,6 +3,7 @@ import {
     BelongsTo
 } from "sequelize-typescript";
 import { reviews } from "./reviews";
+import { users } from "./users";
 
 export interface review_responsesAttributes {
     id?: number;
@@ -31,6 +32,7 @@ export class review_responses extends Model<review_responsesAttributes, review_r
     })
     	review_id!: number;
 
+    @ForeignKey(() => users)
     @Column({
     	type: DataType.INTEGER 
     })
@@ -49,5 +51,8 @@ export class review_responses extends Model<review_responsesAttributes, review_r
 
     @BelongsTo(() => reviews)
         product!: reviews;
+
+    @BelongsTo(() => users)
+        user!: users;
 
 }

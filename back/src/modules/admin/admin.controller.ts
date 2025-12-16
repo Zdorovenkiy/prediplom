@@ -117,9 +117,9 @@ export class AdminController {
   @Post('reviews/:reviewId/response')
   async sendReviewResponse(
     @Param('reviewId') reviewId: string,
-    @Body() body: { text: string }
+    @Body() body: { text: string, user_id: number }
   ) {
-    return await this.adminService.sendReviewResponse(+reviewId, body.text);
+    return await this.adminService.sendReviewResponse(+reviewId, body.text, body.user_id);
   }
 
   @Get('users')

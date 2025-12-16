@@ -30,9 +30,6 @@ export default function MainLayout({children}: PropsWithChildren) {
         syncData();
     }, [])
 
-    useEffect(() => {
-        console.log("userasdasd", user);
-    }, [user])
 	return (
 		<>
 			<Header />

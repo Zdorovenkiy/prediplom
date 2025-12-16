@@ -89,8 +89,12 @@ export default function Item({}: Props) {
   const [activeTab, setActiveTab] = useState(0)
   const [quantity, setQuantity] = useState(1)
 
-  const { data: product, isLoading } = useGetProductQuery({id: +id!});
-  const { data: reviews } = useGetReviewQuery({id: +id!, limit: 3});
+  const { data: product, isLoading } = useGetProductQuery({id: +id!}, {
+  refetchOnMountOrArgChange: true,
+});
+  const { data: reviews } = useGetReviewQuery({id: +id!, limit: 3}, {
+  refetchOnMountOrArgChange: true,
+});
 
   useEffect(() => {
     console.log("id", id);

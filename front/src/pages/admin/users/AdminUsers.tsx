@@ -9,7 +9,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 type Props = {}
 
 export default function AdminUsers({}: Props) {
-    const { data: users, isLoading, refetch } = useGetAllUsersQuery();
+    const { data: users, isLoading, refetch } = useGetAllUsersQuery(undefined, {
+  refetchOnMountOrArgChange: true,
+});
     const [updateUserRole] = useUpdateUserRoleMutation();
     const [deleteUser] = useDeleteUserMutation();
 

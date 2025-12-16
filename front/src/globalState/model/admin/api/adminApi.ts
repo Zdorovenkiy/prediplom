@@ -84,11 +84,11 @@ export const apiAdmin = createApi({
       }),
     }),
 
-    sendReviewResponse: builder.mutation<void, {reviewId: number, responseText: string}>({
+    sendReviewResponse: builder.mutation<void, {reviewId: number, responseText: string, user_id: number}>({
       query: (body) => ({
         url: `admin/reviews/${body.reviewId}/response`,
         method: 'POST',
-        body: { text: body.responseText }
+        body: { text: body.responseText, user_id: body.user_id }
       }),
     }),
 

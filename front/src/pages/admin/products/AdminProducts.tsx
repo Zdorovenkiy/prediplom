@@ -12,7 +12,9 @@ import AddIcon from '@mui/icons-material/Add';
 type Props = {}
 
 export default function AdminProducts({}: Props) {
-    const { data: products, isLoading, refetch } = useGetProductsQuery();
+    const { data: products, isLoading, refetch } = useGetProductsQuery(undefined, {
+  refetchOnMountOrArgChange: true,
+});
     const [createProduct] = useCreateProductMutation();
     const [updateProduct] = useUpdateProductMutation();
     const [deleteProduct] = useDeleteProductMutation();

@@ -3,15 +3,20 @@ import CustomInput from '@/features/customInput/CustomInput';
 import { useGetAllReviewsQuery, useGenerateAIResponseMutation, useSendReviewResponseMutation, useDeleteReviewMutation } from '@/globalState/model/admin/api/adminApi';
 import type { IReview } from '@/globalState/model/review/types/reviewType';
 import { Box, Button, CircularProgress, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Dialog, DialogTitle, DialogContent, DialogActions, Rating, IconButton, Chip } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
+import { useAppSelector } from '@/hooks/useAppSelector';
 
 type Props = {}
 
 export default function AdminReviews({}: Props) {
-    const { data: reviews, isLoading, refetch } = useGetAllReviewsQuery();
+    const user = useAppSelector((state) => state.user);
+
+    const { data: reviews, isLoading, refetch } = useGetAllReviewsQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+    });
     const [generateAIResponse] = useGenerateAIResponseMutation();
     const [sendReviewResponse] = useSendReviewResponseMutation();
     const [deleteReview] = useDeleteReviewMutation();
@@ -51,12 +56,20 @@ export default function AdminReviews({}: Props) {
         }
     };
 
+    useEffect(() => {
+        console.log('user', user);
+        
+    }, [user])
+
     const handleSendResponse = async () => {
         if (!selectedReview || !responseText.trim()) return;
         try {
+            console.log("user.id", user.id);
+            
             await sendReviewResponse({
                 reviewId: selectedReview.id!,
                 responseText: responseText,
+                user_id: user.id!
             });
             refetch();
             handleCloseDialog();

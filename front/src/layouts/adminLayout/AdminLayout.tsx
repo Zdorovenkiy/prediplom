@@ -5,7 +5,7 @@ import { RoutePath, AppRoutes } from '@/routers/config/routeConfig';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import type { StateSchema } from '@/globalState/types/stateSchema';
 import { RoleEnum } from '@/globalState/model/role/types/roleType';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -13,6 +13,9 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import type { PropsWithChildren } from 'react';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useLazyGetUserQuery } from '@/globalState/model/user/api/userApi';
+import { orderAction } from '@/globalState/model/order/slice/orderSlice';
 
 const drawerWidth = 240;
 
@@ -27,9 +30,29 @@ const menuItems = [
 
 export default function AdminLayout({ children }: PropsWithChildren) {
     const navigate = useNavigation();
-    const user = useAppSelector((state: StateSchema) => state.user);
-    const isAdmin = user?.role_id !== RoleEnum.USER || localStorage.getItem('token') !== String(RoleEnum.USER);
+    const [fetchUser, { data: user, isLoading, isError }] = useLazyGetUserQuery();
+    const dispatch = useAppDispatch();
+    const [isAdmin, setIsAdmin] = useState(user?.role_id !== RoleEnum.USER || localStorage.getItem('token') !== String(RoleEnum.USER))
+    
+    
+    async function syncData() {
+        const storageId = localStorage.getItem('id'); 
 
+            if (storageId) {
+                const response = await fetchUser({id: storageId});
+                console.log("response", response.data?.id);
+                if (response.status === "fulfilled") {
+                    dispatch(orderAction.setUser(response?.data?.id!));
+
+                }
+
+            }
+    }
+
+    useEffect(() => {
+        syncData();
+    }, [])
+    
     useEffect(() => {
         if (!isAdmin) {
             navigate(RoutePath.main);
@@ -39,7 +62,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
     if (!isAdmin) {
         return null;
     }
-
+        
     return (
         <Box sx={{ display: 'flex', minHeight: '100vh' }}>
             <AppBar
