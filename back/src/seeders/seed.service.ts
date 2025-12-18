@@ -27,6 +27,24 @@ export class SeedService implements OnModuleInit {
                         password: "1234",
                         role_id: 1,
                         phone: "+79991234567"
+                    },
+                    {
+                        surname: "Петров",
+                        name: "Петр",
+                        patronymic: "Петрович",
+                        email: "test1@example.com",
+                        password: "123456",
+                        role_id: 2,
+                        phone: "+79991234511"
+                    },
+                    {
+                        surname: "Сергеев",
+                        name: "Сергей",
+                        patronymic: "Сергеевич",
+                        email: "test2@example.com",
+                        password: "12345678",
+                        role_id: 3,
+                        phone: "+79991234533"
                     }
                 ];
                 
