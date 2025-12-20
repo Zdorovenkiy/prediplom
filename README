@@ -1,0 +1,14 @@
+для работы с веб-серером необходимо установить nodejs https://nodejs.org/en/download
+для запуска бэкенда
+1 cd back
+2 npm i
+3 npm run start:dev
+
+Для запуска фронтента
+1 cd front 
+2 npm i
+3 npm run dev
+
+Для запуска модуля генерации
+1 установить библиотеки
+2 uvicorn ai_server:app --host 0.0.0.0 --port 8000
