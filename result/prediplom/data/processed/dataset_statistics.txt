@@ -1,0 +1,9 @@
+Сатистика датасета
+==================================================
+Всего записей: 22940
+Размер датасета: 22940 пар (промпт-ответ)
+Пример промпта:
+Instruction: Write a polite and professional response to the customer review.
+Review: I use to order from this store, I stop doing it because it takes a while for them to deliver my orders. Don't inst...
+Пример ответа:
+Dear customer, we are sorry to hear that our services have fallen short of your expectations. Your feedback has been duly noted for future improvements of our services. Please contact our customer ser...

@@ -13,6 +13,7 @@ from transformers import (
 )
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 import evaluate
+from transformers import TrainerCallback
 
 MODEL_NAME = "google/flan-t5-small"
 DATA_DIR = "data/processed"
@@ -223,9 +224,6 @@ def compute_metrics(eval_pred):
     )
 
     return {k: round(v, 4) for k, v in result.items()}
-
-
-from transformers import TrainerCallback
 
 
 class TrainingMonitorCallback(TrainerCallback):
