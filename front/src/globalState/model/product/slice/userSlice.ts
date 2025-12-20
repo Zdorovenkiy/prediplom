@@ -8,17 +8,10 @@ const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    // setIsAuth: (state, action: PayloadAction<boolean>) => {
-    //   state.isAuth = action.payload;
-    // },
+
   },
   extraReducers: (builder) => {
-    // builder.addMatcher(
-    //     apiUser.endpoints.getDiscounts.matchFulfilled,
-    //     (state, { payload }) => {
-    //         state = payload;
-    //     },
-    // );
+
   },
 });
 

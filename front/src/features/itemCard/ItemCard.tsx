@@ -88,4 +88,3 @@ export default function ItemCard({product, wishlist}: Props) {
         </Card>
     )
 }
-// localStorage.getItem('wishlist');

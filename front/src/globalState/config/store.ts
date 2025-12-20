@@ -15,18 +15,13 @@ import { apiReview } from '../model/review/api/reviewApi';
 import { orderReducer } from '../model/order/slice/orderSlice';
 import { apiOrder } from '../model/order/api/userApi';
 import { apiAdmin } from '../model/admin/api/adminApi';
-// import { matchApi } from '@/entities/match/model/api/match.api';
-// import { listenerReducer } from '@/entities/listeners';
-// import { timerReducer } from '@/entities/timer';
+
 
 export function createReduxStore(initialState?: StateSchema) {
   const rootReducers: ReducersMapObject<StateSchema> = {
     user: userReducer,
     product: productReducer,
     order: orderReducer
-    // auth: authReducer,
-    // listeners: listenerReducer,
-    // timer: timerReducer,
   };
 
   const apiReducers = {

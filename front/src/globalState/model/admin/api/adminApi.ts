@@ -9,7 +9,6 @@ export const apiAdmin = createApi({
   reducerPath: 'apiAdmin',
   baseQuery: baseQuery,
   endpoints: (builder) => ({
-    // Dashboard статистика
     getDashboardStats: builder.query<any, void>({
       query: () => ({
         url: `admin/dashboard`,
@@ -17,7 +16,6 @@ export const apiAdmin = createApi({
       }),
     }),
 
-    // Управление товарами
     createProduct: builder.mutation<IProduct, Partial<IProduct>>({
       query: (body) => ({
         url: `admin/products`,
@@ -29,7 +27,6 @@ export const apiAdmin = createApi({
     updateProduct: builder.mutation<IProduct, Partial<IProduct>>({
       query: (body) => {
         const { id, images, ...updateData } = body;
-        // Преобразуем price и stock в числа, если они есть
         const cleanData: any = { ...updateData };
         if (cleanData.price !== undefined) {
           cleanData.price = Number(cleanData.price);
@@ -52,7 +49,6 @@ export const apiAdmin = createApi({
       }),
     }),
 
-    // Управление заказами
     getAllOrders: builder.query<IOrder[], void>({
       query: () => ({
         url: `admin/orders`,
@@ -68,7 +64,6 @@ export const apiAdmin = createApi({
       }),
     }),
 
-    // Модерация отзывов
     getAllReviews: builder.query<IReview[], void>({
       query: () => ({
         url: `admin/reviews`,
@@ -99,7 +94,6 @@ export const apiAdmin = createApi({
       }),
     }),
 
-    // Управление пользователями
     getAllUsers: builder.query<IUser[], void>({
       query: () => ({
         url: `admin/users`,

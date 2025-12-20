@@ -101,39 +101,7 @@ export default function Item({}: Props) {
     
   }, [id])
     const dispatch = useAppDispatch();
-  // Пример отзывов
-//   const reviews: Review[] = [
-//     {
-//       id: 1,
-//       author: 'Александр Петров',
-//       rating: 5,
-//       date: '15.12.2023',
-//       text: 'Отличный телефон! Камера просто супер, батареи хватает на целый день активного использования.',
-//       pros: 'Качество камеры, производительность, дизайн',
-//       cons: 'Высокая цена',
-//       verifiedPurchase: true
-//     },
-//     {
-//       id: 2,
-//       author: 'Мария Иванова',
-//       rating: 4,
-//       date: '10.12.2023',
-//       text: 'Хороший телефон, но тяжеловат. В остальном всё отлично.',
-//       pros: 'Экран, звук, камера',
-//       cons: 'Вес, цена',
-//       verifiedPurchase: true
-//     },
-//     {
-//       id: 3,
-//       author: 'Дмитрий Смирнов',
-//       rating: 5,
-//       date: '05.12.2023',
-//       text: 'Лучший iPhone на данный момент. Титан выглядит премиально.',
-//       pros: 'Материалы, производительность, камера',
-//       cons: 'Нет',
-//       verifiedPurchase: false
-//     }
-//   ]
+
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)

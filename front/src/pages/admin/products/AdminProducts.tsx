@@ -60,7 +60,6 @@ export default function AdminProducts({}: Props) {
     const handleSave = async () => {
         try {
             if (editingProduct?.id) {
-                // Убираем id и images из тела запроса, преобразуем price в число
                 const { id, images, ...updateData } = formData;
                 const cleanData = {
                     ...updateData,
@@ -69,7 +68,6 @@ export default function AdminProducts({}: Props) {
                 };
                 await updateProduct({ ...cleanData, id: editingProduct.id });
             } else {
-                // При создании также преобразуем price и stock в числа
                 const { images, ...createData } = formData;
                 const cleanData = {
                     ...createData,

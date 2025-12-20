@@ -21,6 +21,5 @@ export class CreateUserDto {
   password!: string;
 
   @IsString({ message: 'Телефон должен быть строкой' })
-//   @Matches(/^[\d\s\-\+\(\)]+$/, { message: 'Некорректный формат телефона' })
   phone!: string;
 }

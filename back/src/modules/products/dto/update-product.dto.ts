@@ -4,7 +4,6 @@ import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, MaxLength, Min, 
 import { Transform, Type } from 'class-transformer';
 import { CreateProductImageDto } from 'src/modules/product_images/dto/create-product_image.dto';
 
-// Вариант 1: Наследование от CreateProductDto с PartialType
 export class UpdateProductDto extends PartialType(CreateProductDto) {
   @IsOptional()
   @Type(() => Number)

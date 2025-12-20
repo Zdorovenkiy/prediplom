@@ -117,7 +117,6 @@ parseXlsx(buffer: Buffer): any[] {
   return XLSX.utils.sheet_to_json(sheet);
 }
 
-  // Dashboard
   async getDashboardStats() {
     const totalOrders = await this.ordersModel.count();
     const totalUsers = await this.usersModel.count();
@@ -131,10 +130,9 @@ parseXlsx(buffer: Buffer): any[] {
     });
     const totalRevenue = totalRevenueResult[0]?.total || 0;
 
-    // Поскольку timestamps: false, считаем все заказы как недавние для примера
     const recentOrders = totalOrders;
 
-    // Считаем отзывы без ответов
+
     const allReviews = await this.reviewsModel.findAll();
     const allResponses = await this.reviewResponsesModel.findAll();
     const reviewsWithResponses = new Set(allResponses.map(r => r.review_id));
@@ -150,7 +148,6 @@ parseXlsx(buffer: Buffer): any[] {
     };
   }
 
-  // Products
   async createProduct(createProductDto: CreateProductDto) {
     const product = await this.productsModel.create(createProductDto);
     return await this.productsModel.findByPk(product.id, {
@@ -175,7 +172,6 @@ parseXlsx(buffer: Buffer): any[] {
 
   async deleteProduct(id: number) {
     try {
-      // Проверяем, используется ли продукт в заказах
       const orderProducts = await this.orderProductsModel.count({
         where: { product_id: id },
       });
@@ -184,7 +180,6 @@ parseXlsx(buffer: Buffer): any[] {
         throw new Error(`Невозможно удалить товар: он используется в ${orderProducts} заказах`);
       }
 
-      // Удаляем связанные изображения
       const productImages = await this.productImagesModel.findAll({
         where: { product_id: id },
       });
@@ -195,7 +190,6 @@ parseXlsx(buffer: Buffer): any[] {
         });
       }
 
-      // Удаляем связанные отзывы
       const reviews = await this.reviewsModel.findAll({
         where: { product_id: id },
       });
@@ -206,7 +200,6 @@ parseXlsx(buffer: Buffer): any[] {
         });
       }
 
-      // Удаляем сам продукт
       return await this.productsModel.destroy({
         where: { id },
       });
@@ -218,7 +211,6 @@ parseXlsx(buffer: Buffer): any[] {
     }
   }
 
-  // Orders
   async getAllOrders() {
     const ordersList = await this.ordersModel.findAll({
       include: [{
@@ -232,7 +224,6 @@ parseXlsx(buffer: Buffer): any[] {
       order: [['id', 'DESC']],
     });
     
-    // Преобразуем формат для фронтенда
     return ordersList.map(order => ({
       ...order.toJSON(),
       products: order.order_products?.map(op => ({
@@ -286,8 +277,7 @@ parseXlsx(buffer: Buffer): any[] {
       }],
       order: [['id', 'DESC']],
     });
-    
-    // Преобразуем формат для фронтенда
+
     return ordersList.map(order => ({
       ...order.toJSON(),
       products: order.order_products?.map(op => ({
@@ -308,7 +298,6 @@ parseXlsx(buffer: Buffer): any[] {
     return await this.getOrder(id);
   }
 
-  // Reviews
   async getAllReviews() {
     return await this.reviewsModel.findAll({
       include: [{
@@ -348,16 +337,20 @@ parseXlsx(buffer: Buffer): any[] {
     });
   }
 
+private delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async generateAIResponse(reviewText: string): Promise<{ response: string }> {    
   try {
     
-    const translatedInput = await translate(reviewText, { to: 'en' });
-
+    const translatedInput = await translate(reviewText, { to: 'en',  });
+    await this.delay(1000);
     const { data } = await axios.post('http://localhost:8000/generate', {
       review_text: translatedInput.text,
     });
 
-    
+    await this.delay(1000);
     const translatedOutput = await translate(data.response, { to: 'ru' });
 
     return { response: translatedOutput.text };
@@ -378,7 +371,6 @@ async generateAIResponse(reviewText: string): Promise<{ response: string }> {
     });
   }
 
-  // Users
   async getAllUsers() {
     return await this.usersModel.findAll({
       attributes: { exclude: ['password'] },
